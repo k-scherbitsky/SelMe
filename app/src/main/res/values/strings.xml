@@ -33,4 +33,7 @@
     <string name="last_name_input_error">Enter your last name</string>
     <string name="toast_sign_up_failed">Sing up is failed!</string>
     <string name="toast_sign_up_success">Sign up is success!</string>
+    <string name="title_add_post">Add post</string>
+    <string name="title_profile">Profile</string>
+    <string name="sign_out">Sign out</string>
 </resources>
