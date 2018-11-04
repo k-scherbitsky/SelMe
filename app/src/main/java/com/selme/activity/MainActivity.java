@@ -1,4 +1,4 @@
-package com.selme;
+package com.selme.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -6,6 +6,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.selme.R;
 
 public class MainActivity extends AppCompatActivity {
 
