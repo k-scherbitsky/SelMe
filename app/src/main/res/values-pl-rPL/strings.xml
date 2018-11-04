@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SelMe</string>
+    <string name="prompt_password">Hasło</string>
+    <string name="action_sign_in_short">Zaloguj</string>
+    <string name="error_invalid_email">Ten adres e-mail jest nieprawidłowy</string>
+    <string name="error_invalid_password">To hasło jest za krótkie</string>
+    <string name="error_incorrect_password">To hasło jest nieprawidłowe</string>
+    <string name="error_field_required">To pole jest wymagane</string>
+</resources>

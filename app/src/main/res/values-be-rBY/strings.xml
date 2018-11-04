@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SelMe</string>
+    <string name="prompt_password">Пароль</string>
+    <string name="action_sign_in_short">Увайсці</string>
+    <string name="error_invalid_email">Гэты адрас электроннай пошты ня дзейнічае</string>
+    <string name="error_invalid_password">Гэты пароль занадта кароткі</string>
+    <string name="error_incorrect_password">Гэты няправільны пароль</string>
+    <string name="error_field_required">Гэта поле абавязкова для запаўнення</string>
+    <string name="title_activity_login">Уваход</string>
+</resources>
