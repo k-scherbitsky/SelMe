@@ -83,9 +83,11 @@ public class SignUpActivity extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        String userId = mAuth.getCurrentUser().getUid();
                         UserDAO userDAO = new UserDAO(getBaseContext());
-                        userDAO.createNewUser(firstName, lastName,  description);
+                        userDAO.createNewUser(firstName, lastName,  description, userId);
                         onSignUpSuccess();
+                        progressDialog.dismiss();
                         Log.d(TAG, "createUserWithEmailAndPassword:  success.");
                     } else {
                         progressDialog.dismiss();

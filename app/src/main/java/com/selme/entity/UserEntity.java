@@ -14,16 +14,18 @@ public class UserEntity implements Parcelable {
     private String lastName;
     private String description;
     private String profilePhoto;
+    private String userId;
 
     public UserEntity(){
 
     }
 
-    public UserEntity(String firstName, String lastName, String description, String profilePhoto) {
+    public UserEntity(String firstName, String lastName, String description, String profilePhoto, String userId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.description = description;
         this.profilePhoto = profilePhoto;
+        this.userId = userId;
     }
 
     protected UserEntity(Parcel in) {
@@ -31,6 +33,7 @@ public class UserEntity implements Parcelable {
         lastName = in.readString();
         description = in.readString();
         profilePhoto = in.readString();
+        userId = in.readString();
     }
 
     public String getFirstName() {
@@ -65,6 +68,14 @@ public class UserEntity implements Parcelable {
         this.profilePhoto = profilePhoto;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public static final Creator<UserEntity> CREATOR = new Creator<UserEntity>() {
         @Override
         public UserEntity createFromParcel(Parcel in) {
@@ -85,13 +96,14 @@ public class UserEntity implements Parcelable {
         return Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
                 Objects.equals(description, that.description) &&
+                Objects.equals(userId, that.userId) &&
                 Objects.equals(profilePhoto, that.profilePhoto);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(firstName, lastName, description, profilePhoto);
+        return Objects.hash(firstName, lastName, description, profilePhoto, userId);
     }
 
     @Override
@@ -105,5 +117,6 @@ public class UserEntity implements Parcelable {
         parcel.writeString(lastName);
         parcel.writeString(description);
         parcel.writeString(profilePhoto);
+        parcel.writeString(userId);
     }
 }

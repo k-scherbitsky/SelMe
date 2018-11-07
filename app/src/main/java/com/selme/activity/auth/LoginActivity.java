@@ -21,9 +21,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.selme.R;
 import com.selme.activity.MainActivity;
 
-/**
- * A login screen that offers login via email/password.
- */
 public class LoginActivity extends AppCompatActivity {
 
     private static final int REQUEST_SIGNUP = 0;
@@ -82,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d(TAG, "signInWithEmailAndPassword: success");
                         onLoginSuccess();
                         Toast.makeText(getBaseContext(), "Login is success!", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                     } else {
                         Log.d(TAG, "signInWithEmailAndPassword: failure");
                         progressDialog.dismiss();
