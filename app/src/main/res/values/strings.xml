@@ -44,4 +44,5 @@
     <string name="picture_1">picture 1</string>
     <string name="picture_2">picture 2</string>
     <string name="this_one">This one</string>
+    <string name="profile_image">Profile image</string>
 </resources>

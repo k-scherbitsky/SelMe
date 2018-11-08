@@ -15,11 +15,13 @@
         android:paddingRight="24dp">
 
         <ImageView
+            android:id="@+id/profileImageSignUp"
             android:layout_width="wrap_content"
             android:layout_height="72dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
-            android:src="@mipmap/ic_launcher_round" />
+            android:src="@mipmap/ic_launcher_round"
+            android:contentDescription="@string/profile_image" />
 
         <!--  Name Label -->
         <android.support.design.widget.TextInputLayout
