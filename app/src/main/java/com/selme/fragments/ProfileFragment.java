@@ -1,8 +1,8 @@
 package com.selme.fragments;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -70,23 +71,26 @@ public class ProfileFragment extends Fragment implements UserDAOCallback {
     public void onLoaded(UserEntity user) {
         userName.setText(getUserName(user.getFirstName(), user.getLastName()));
         description.setText(user.getDescription());
-        getProfilePhoto();
-        progressBar.setVisibility(View.INVISIBLE);
+        setProfilePhoto();
     }
 
     @Override
-    public void onFailed(String error) {
-
+    public void onFailed(Exception error) {
+        Log.w(TAG, "onFailed: Data from db wasn't upload. Check log", error);
     }
 
-    private void getProfilePhoto(){
+    private void setProfilePhoto(){
+        Log.d(TAG, "setProfilePhoto: set photo to profile photo");
         String filePath = "profileImage/" + userId + ".jpg";
         StorageReference riversRef = mStorageRef.child(filePath);
 
-        riversRef.getDownloadUrl()
-                .addOnSuccessListener(uri -> Glide.with(this).load(uri).into(profileImage));
-
-
+        riversRef.getDownloadUrl().addOnSuccessListener(uri ->
+                Glide.with(this)
+                        .load(uri)
+                        .apply(RequestOptions.circleCropTransform())
+                        .apply(RequestOptions.placeholderOf(R.mipmap.ic_launcher_round))
+                        .into(profileImage));
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     private  String getUserName(String firstName, String lastName){

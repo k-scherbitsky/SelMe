@@ -26,21 +26,20 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginBottom="@dimen/profile_header"
-                android:divider="@color/divider">
+                android:divider="@color/divider"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
-                    android:layout_weight="1"
                     android:layout_marginBottom="@dimen/profile_header"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/profileImageView"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:contentDescription="@string/profile_photo"
                         android:padding="@dimen/profile_photo_padding"
@@ -86,7 +85,7 @@
                 <TextView
                     android:id="@+id/profileDescriptionTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="53dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="TextView"
                     android:textAppearance="?android:attr/textAppearanceSmall" />

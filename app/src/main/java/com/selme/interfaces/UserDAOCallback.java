@@ -6,6 +6,6 @@ public interface UserDAOCallback {
 
     void onLoaded(UserEntity user);
 
-    void onFailed(String error);
+    void onFailed(Exception error);
 
 }

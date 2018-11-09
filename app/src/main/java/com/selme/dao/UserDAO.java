@@ -63,7 +63,7 @@ public class UserDAO {
                 }
                 callback.onLoaded(userEntity);
             } else{
-                callback.onFailed("error");
+                callback.onFailed(task.getException());
             }
         });
 
