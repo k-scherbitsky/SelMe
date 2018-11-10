@@ -8,4 +8,5 @@
     <string name="error_incorrect_password">Гэты няправільны пароль</string>
     <string name="error_field_required">Гэта поле абавязкова для запаўнення</string>
     <string name="title_activity_login">Уваход</string>
+    <string name="share_new_post">Share</string>
 </resources>

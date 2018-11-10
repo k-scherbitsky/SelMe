@@ -1,14 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.CreatePostFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="create post" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="24dp"
+            android:paddingTop="10dp"
+            android:paddingRight="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/input_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/title_of_your_post"
+                        android:inputType="textCapWords" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/input_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/description_of_your_post"
+                        android:inputType="textCapSentences" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/error_text_picture_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/you_didn_t_choose_a_picture"
+                    android:textColor="@color/errorText"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/input_photo1"
+                    android:layout_width="match_parent"
+                    android:layout_height="125dp"
+                    android:contentDescription="@string/picture_1"
+                    tools:src="@tools:sample/avatars" />
+
+                <Button
+                    android:id="@+id/upload_photo_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/button_margin_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:padding="12dp"
+                    android:text="@string/upload_the_first_picture"
+                    tools:targetApi="o" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/error_text_picture_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/you_didn_t_choose_a_picture"
+                    android:textColor="@color/errorText"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/input_photo2"
+                    android:layout_width="match_parent"
+                    android:layout_height="125dp"
+                    android:contentDescription="@string/picture_2"
+                    tools:src="@tools:sample/avatars" />
+
+                <Button
+                    android:id="@+id/upload_photo_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/button_margin_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:padding="12dp"
+                    android:text="@string/upload_the_second_picture"
+                    tools:targetApi="o" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/share_new_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/button_margin_horizontal"
+                android:layout_marginBottom="10dp"
+                android:padding="12dp"
+                android:text="@string/share_new_post"
+                tools:targetApi="o" />
+        </LinearLayout>
+    </ScrollView>
+
 
 </FrameLayout>

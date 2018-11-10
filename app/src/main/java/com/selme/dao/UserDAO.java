@@ -47,7 +47,7 @@ public class UserDAO {
                 Log.d(TAG, "createNewUser: success");
                 Toast.makeText(context, R.string.toast_sign_up_success, Toast.LENGTH_SHORT).show();
             } else {
-                Log.d(TAG, "createNewUser: failure");
+                Log.w(TAG, "createNewUser: failure", task.getException());
                 Toast.makeText(context, R.string.toast_sign_up_failed, Toast.LENGTH_SHORT).show();
             }
         });

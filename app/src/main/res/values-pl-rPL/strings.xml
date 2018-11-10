@@ -7,4 +7,5 @@
     <string name="error_invalid_password">To hasło jest za krótkie</string>
     <string name="error_incorrect_password">To hasło jest nieprawidłowe</string>
     <string name="error_field_required">To pole jest wymagane</string>
+    <string name="share_new_post">Share</string>
 </resources>

@@ -60,9 +60,9 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text=""
                             android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceLarge" />
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            tools:text="@tools:sample/full_names"/>
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -87,8 +87,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="@tools:sample/lorem"/>
             </LinearLayout>
         </LinearLayout>
 
