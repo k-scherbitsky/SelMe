@@ -127,11 +127,11 @@ public class CreatePostFragment extends Fragment {
         Log.d(TAG, "createNewPost");
 
         if(!validate()){
-            share.setEnabled(false);
+            share.setEnabled(true);
             return;
         }
 
-        share.setEnabled(true);
+        share.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(getContext(), R.style.Theme_AppCompat_Light_Dialog);
         progressDialog.setIndeterminate(true);
