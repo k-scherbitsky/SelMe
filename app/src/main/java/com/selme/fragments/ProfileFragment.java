@@ -85,7 +85,7 @@ public class ProfileFragment extends Fragment implements UserDAOCallback {
         StorageReference riversRef = mStorageRef.child(filePath);
 
         riversRef.getDownloadUrl().addOnSuccessListener(uri ->
-                Glide.with(this)
+                Glide.with(getActivity())
                         .load(uri)
                         .apply(RequestOptions.circleCropTransform())
                         .apply(RequestOptions.placeholderOf(R.mipmap.ic_launcher_round))

@@ -38,7 +38,7 @@
 
                     <ImageView
                         android:id="@+id/profileImageView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:contentDescription="@string/profile_photo"
@@ -76,6 +76,8 @@
                                 android:layout_gravity="center"
                                 android:text="@string/edit_profile_btn_text"
                                 android:textSize="10sp"
+                                android:textColor="@color/colorPrimaryLight"
+                                android:background="@color/colorPrimaryDark"
                                 tools:ignore="RtlHardcoded,SmallSp" />
                         </FrameLayout>
 
