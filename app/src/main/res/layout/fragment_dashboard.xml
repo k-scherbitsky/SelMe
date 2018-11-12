@@ -5,10 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".fragments.DashboardFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/title_dashboard" />
+        android:orientation="horizontal">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/dashboard_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 </FrameLayout>

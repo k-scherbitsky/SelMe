@@ -23,6 +23,13 @@ public class PostEntity implements Parcelable {
 
     }
 
+    public PostEntity(String title, String description, String photo1, String photo2){
+        this.title = title;
+        this.description = description;
+        this.photo1 = photo1;
+        this.photo2 = photo2;
+    }
+
     public PostEntity(String title, String description, Date createdDate, String photo1, String photo2, String userId, LikesEntity likesEntity, CommentsEntity commentsEntity) {
         this.title = title;
         this.description = description;

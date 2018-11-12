@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".activity.CardViewActivity">
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
@@ -18,19 +17,50 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/titlePostTextView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/descriptionPostTextView"
+                <ImageView
+                    android:id="@+id/post_avatar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/profile_photo"
+                    tools:src="@tools:sample/avatars"/>
+
+                <TextView
+                    android:id="@+id/post_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_gravity="start"
+                    android:gravity="fill_vertical"
+                    tools:text="@tools:sample/full_names"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="" />
+                android:layout_marginHorizontal="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/titlePostTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    tools:text="@tools:sample/lorem" />
+
+                <TextView
+                    android:id="@+id/descriptionPostTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="@tools:sample/lorem"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,6 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginRight="5dp"
                     android:contentDescription="@string/picture_1"
                     tools:src="@tools:sample/avatars[5]" />
 
@@ -51,6 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
                     android:contentDescription="@string/picture_2"
                     tools:src="@tools:sample/avatars[8]" />
             </LinearLayout>
@@ -68,6 +100,7 @@
                     android:textColor="@color/colorPrimaryLight"
                     android:background="@color/colorPrimaryDark"
                     android:layout_weight="1"
+                    android:layout_marginRight="5dp"
                     android:text="@string/this_one"
                     tools:ignore="ButtonStyle" />
 
@@ -78,6 +111,7 @@
                     android:textColor="@color/colorPrimaryLight"
                     android:background="@color/colorPrimaryDark"
                     android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
                     android:text="@string/this_one"
                     tools:ignore="ButtonStyle" />
             </LinearLayout>
