@@ -54,7 +54,7 @@ public class UserDAO {
         });
     }
 
-    public void getUser(String uid) {
+    public void getUser(String uid, int requestCode, int pos) {
         Query usersQuery = userCollectionRef.whereEqualTo("userId", uid);
         usersQuery.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -62,9 +62,9 @@ public class UserDAO {
                 for (QueryDocumentSnapshot document: task.getResult()){
                     userEntity = document.toObject(UserEntity.class);
                 }
-                callback.onLoaded(userEntity);
+                callback.onUserLoaded(userEntity, requestCode, pos);
             } else{
-                callback.onFailed(task.getException());
+                callback.onUserLoadFailed(task.getException());
             }
         });
 

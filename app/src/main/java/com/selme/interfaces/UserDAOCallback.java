@@ -4,8 +4,8 @@ import com.selme.entity.UserEntity;
 
 public interface UserDAOCallback {
 
-    void onLoaded(UserEntity user);
+    void onUserLoaded(UserEntity user, int requestCode, int pos);
 
-    void onFailed(Exception error);
+    void onUserLoadFailed(Exception error);
 
 }

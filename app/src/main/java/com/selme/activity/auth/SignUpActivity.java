@@ -144,7 +144,7 @@ public class SignUpActivity extends AppCompatActivity {
         String lastName = lastNameText.getText().toString();
         String description = aboutMeText.getText().toString();
 
-        PictureLoader pictureUploader = new PictureLoader(mAuth, mStorageRef, this);
+        PictureLoader pictureUploader = new PictureLoader(mStorageRef, this);
         pictureUploader.uploadPhoto(photoUri, TAG, "profileImage", avatarFileName);
 
 

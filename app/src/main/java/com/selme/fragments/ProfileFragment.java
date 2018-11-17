@@ -60,9 +60,9 @@ public class ProfileFragment extends Fragment implements UserDAOCallback, Pictur
         profileImage = view.findViewById(R.id.profileImageView);
 
         UserDAO userDAO = new UserDAO(this);
-        userDAO.getUser(userId);
+        userDAO.getUser(userId, 0, 0);
 
-        pictureLoader = new PictureLoader(auth, mStorageRef, getActivity(), this);
+        pictureLoader = new PictureLoader(mStorageRef, this);
 
         userName = view.findViewById(R.id.userNameTextView);
         description = view.findViewById(R.id.profileDescriptionTextView);
@@ -77,22 +77,22 @@ public class ProfileFragment extends Fragment implements UserDAOCallback, Pictur
     }
 
     @Override
-    public void onLoaded(UserEntity user) {
+    public void onUserLoaded(UserEntity user, int requestCode, int pos) {
         userName.setText(getUserName(user.getFirstName(), user.getLastName()));
         description.setText(user.getDescription());
         avatarName = user.getProfilePhoto();
 
         mStorageRef = mStorageRef.child("profileImage/" + avatarName + ".jpg");
-        pictureLoader.getPhotoUri(mStorageRef);
+        pictureLoader.getPhotoUri(mStorageRef,0,  0);
     }
 
     @Override
-    public void onFailed(Exception error) {
-        Log.w(TAG, "onFailed: Data from db wasn't upload. Check log", error);
+    public void onUserLoadFailed(Exception error) {
+        Log.w(TAG, "onUserLoadFailed: Data from db wasn't upload. Check log", error);
     }
 
     @Override
-    public void onPictureDownloaded(Uri uri) {
+    public void onPictureDownloaded(Uri uri, int requestCode, int pos) {
         Glide.with(this)
                 .load(uri)
                 .apply(RequestOptions.circleCropTransform())

@@ -16,24 +16,20 @@ import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
-public class PictureLoader{
+public class PictureLoader {
 
-    private FirebaseAuth auth;
     private StorageReference storageRef;
     private Activity activity;
     private PictureLoaderCallback callback;
 
-    public PictureLoader(FirebaseAuth auth, StorageReference storageRef, Activity activity) {
-        this.auth = auth;
+    public PictureLoader(StorageReference storageRef, Activity activity) {
         this.storageRef = storageRef;
         this.activity = activity;
     }
 
-    public PictureLoader(FirebaseAuth auth, StorageReference storageRef, Activity activity, PictureLoaderCallback callback){
+    public PictureLoader(StorageReference storageRef, PictureLoaderCallback callback) {
         this.callback = callback;
-        this.auth = auth;
         this.storageRef = storageRef;
-        this.activity = activity;
     }
 
     public void uploadPhoto(Uri uri, String TAG, String folderName, String fileName) {
@@ -51,8 +47,8 @@ public class PictureLoader{
                 });
     }
 
-    public void getPhotoUri(StorageReference riversRef){
-        riversRef.getDownloadUrl().addOnSuccessListener(uri -> callback.onPictureDownloaded(uri));
+    public void getPhotoUri(StorageReference riversRef, int requestCode, int pos) {
+        riversRef.getDownloadUrl().addOnSuccessListener(uri -> callback.onPictureDownloaded(uri, requestCode, pos));
     }
 
     public Bitmap getBitmapImage(Bitmap bitmap, int resultCode, Intent data) {

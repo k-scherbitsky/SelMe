@@ -1,5 +1,6 @@
 package com.selme.adapter;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.selme.R;
+import com.selme.dto.PostDTO;
 import com.selme.entity.PostEntity;
 
 import java.util.ArrayList;
@@ -19,9 +22,9 @@ import java.util.List;
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.DashboardViewHolder> {
 
-    private List<PostEntity> postEntityList = new ArrayList<>();
+    private List<PostDTO> postEntityList = new ArrayList<>();
 
-    public void setItems(Collection<PostEntity> posts){
+    public void setItems(Collection<PostDTO> posts){
         postEntityList.addAll(posts);
         notifyDataSetChanged();
     }
@@ -54,6 +57,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
 
     public class DashboardViewHolder extends RecyclerView.ViewHolder{
 
+        private ImageView avatarImageView;
+        private TextView userName;
         private TextView title;
         private TextView description;
         private ImageView picture1;
@@ -64,6 +69,9 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
         public DashboardViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            avatarImageView = itemView.findViewById(R.id.post_avatar);
+            userName = itemView.findViewById(R.id.post_username);
+
             title =  itemView.findViewById(R.id.titlePostTextView);
             description = itemView.findViewById(R.id.descriptionPostTextView);
             picture1 = itemView.findViewById(R.id.postImage1);
@@ -72,16 +80,27 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             thisOneButton2 = itemView.findViewById(R.id.thisOneButton2);
 
         }
-        public void bind(PostEntity entity){
-            title.setText(entity.getTitle());
-            description.setText(entity.getDescription());
+        public void bind(PostDTO entity){
+            if(entity.getUserName() != null){
+                userName.setText(entity.getUserName());
+            }
+            if(entity.getTitle() != null){
+                title.setText(entity.getTitle());
+            }
+            if(entity.getDescription() != null){
+                description.setText(entity.getDescription());
+            }
 
-            String pic1 = entity.getPhoto1();
-            String pic2 = entity.getPhoto2();
+            Uri avatar = entity.getAvatar();
+            Uri pic1 = entity.getPicture1();
+            Uri pic2 = entity.getPicture2();
 
+
+            Glide.with(itemView.getContext()).load(avatar).apply(RequestOptions.circleCropTransform()).into(avatarImageView);
             Glide.with(itemView.getContext()).load(pic1).into(picture1);
             Glide.with(itemView.getContext()).load(pic2).into(picture2);
 
+            picture1.setVisibility(avatar != null ? View.VISIBLE : View.GONE);
             picture1.setVisibility(pic1 != null ? View.VISIBLE : View.GONE);
             picture2.setVisibility(pic2 != null ? View.VISIBLE : View.GONE);
         }

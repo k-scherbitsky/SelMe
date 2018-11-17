@@ -64,7 +64,7 @@ public class CreatePostFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
-        pictureUploader = new PictureLoader(mAuth, mStorageRef, getActivity());
+        pictureUploader = new PictureLoader(mStorageRef, getActivity());
 
         errorTextPic1 = view.findViewById(R.id.error_text_picture_1);
         errorTextPic2 = view.findViewById(R.id.error_text_picture_2);
