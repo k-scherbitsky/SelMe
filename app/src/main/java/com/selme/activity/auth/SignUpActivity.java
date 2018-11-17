@@ -22,8 +22,11 @@ import com.google.firebase.storage.StorageReference;
 import com.selme.R;
 import com.selme.activity.MainActivity;
 import com.selme.dao.UserDAO;
+import com.selme.interfaces.PictureLoaderCallback;
+import com.selme.modal.PictureLoader;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -43,6 +46,10 @@ public class SignUpActivity extends AppCompatActivity {
     private ImageView profileImage;
     private Bitmap currentPhoto;
     private Uri photoUri;
+    private String pathToAvatar;
+    private String userId;
+    private ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +87,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(currentPhoto != null){
+        if (currentPhoto != null) {
             currentPhoto.recycle();
             currentPhoto = null;
             System.gc();
@@ -90,7 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(currentPhoto != null){
+        if (currentPhoto != null) {
             currentPhoto.recycle();
             currentPhoto = null;
             System.gc();
@@ -101,9 +108,9 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK) {
             photoUri = data.getData();
-            if(photoUri != null){
+            if (photoUri != null) {
                 try {
                     currentPhoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
                     profileImage.setImageBitmap(currentPhoto);
@@ -118,33 +125,41 @@ public class SignUpActivity extends AppCompatActivity {
     private void signUp() {
         Log.d(TAG, "signUp");
 
-        if(!validate()){
+        if (!validate()) {
             onSignUpFailed();
             return;
         }
 
         signUpButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this, R.style.Theme_AppCompat_Light_Dialog);
+        progressDialog = new ProgressDialog(SignUpActivity.this, R.style.Theme_AppCompat_Light_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.dialog_authenticating));
         progressDialog.show();
 
+        String email = emailText.getText().toString();
+        String password = passwordText.getText().toString();
+        String avatarFileName = UUID.randomUUID().toString();
         String firstName = firstNameText.getText().toString();
         String lastName = lastNameText.getText().toString();
         String description = aboutMeText.getText().toString();
-        String email = emailText.getText().toString();
-        String password = passwordText.getText().toString();
+
+        PictureLoader pictureUploader = new PictureLoader(mAuth, mStorageRef, this);
+        pictureUploader.uploadPhoto(photoUri, TAG, "profileImage", avatarFileName);
+
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        String userId = mAuth.getCurrentUser().getUid();
+
+                        userId = mAuth.getCurrentUser().getUid();
+
                         UserDAO userDAO = new UserDAO(getBaseContext());
-                        userDAO.createNewUser(firstName, lastName,  description, userId);
+                        userDAO.createNewUser(firstName, lastName, description, userId, avatarFileName);
                         onSignUpSuccess();
-                        uploadPhoto();
+
                         progressDialog.dismiss();
+
                         Log.d(TAG, "createUserWithEmailAndPassword:  success.");
                     } else {
                         progressDialog.dismiss();
@@ -173,14 +188,14 @@ public class SignUpActivity extends AppCompatActivity {
         String firstName = firstNameText.getText().toString();
         String lastName = lastNameText.getText().toString();
 
-        if(firstName.isEmpty()){
+        if (firstName.isEmpty()) {
             firstNameText.setError(getString(R.string.first_name_input_error));
             validate = false;
         } else {
             firstNameText.setError(null);
         }
 
-        if(lastName.isEmpty()){
+        if (lastName.isEmpty()) {
             lastNameText.setError(getString(R.string.last_name_input_error));
             validate = false;
         } else {
@@ -190,18 +205,4 @@ public class SignUpActivity extends AppCompatActivity {
         return validate;
     }
 
-    private void uploadPhoto(){
-        String filePath = "profileImage/" + mAuth.getCurrentUser().getUid() + ".jpg";
-        StorageReference riversRef = mStorageRef.child(filePath);
-
-        riversRef.putFile(photoUri)
-                .addOnSuccessListener(taskSnapshot -> {
-                    // Get a URL to the uploaded content
-                    Log.d(TAG, "uploadPhoto: profile photo is uploaded");
-                })
-                .addOnFailureListener(exception -> {
-                    // Handle unsuccessful uploads
-                    Log.d(TAG, "uploadPhoto: profile photo isn't uploaded. Check log");
-                });
-    }
 }

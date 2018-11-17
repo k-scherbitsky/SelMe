@@ -35,7 +35,6 @@
             android:label="@string/title_activity_signup">
 
         </activity>
-        <activity android:name=".activity.CardViewActivity"></activity>
     </application>
 
 </manifest>

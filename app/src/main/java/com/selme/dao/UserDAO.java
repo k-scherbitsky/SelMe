@@ -34,13 +34,14 @@ public class UserDAO {
         this.callback = callback;
     }
 
-    public void createNewUser(String firstName, String lastName, String description, String userId) {
+    public void createNewUser(String firstName, String lastName, String description, String userId, String avatar) {
         Log.d(TAG, "createNewUser");
         UserEntity userEntity = new UserEntity();
         userEntity.setFirstName(firstName);
         userEntity.setLastName(lastName);
         userEntity.setDescription(description);
         userEntity.setUserId(userId);
+        userEntity.setProfilePhoto(avatar);
 
         newUserRef.set(userEntity).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

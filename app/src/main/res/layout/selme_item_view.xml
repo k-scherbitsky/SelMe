@@ -9,8 +9,7 @@
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="?android:attr/colorBackground">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,23 +19,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:id="@+id/post_avatar"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:contentDescription="@string/profile_photo"
-                    tools:src="@tools:sample/avatars"/>
+                    tools:src="@tools:sample/avatars" />
 
                 <TextView
                     android:id="@+id/post_username"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="15dp"
                     android:layout_gravity="start"
+                    android:layout_marginLeft="15dp"
                     android:gravity="fill_vertical"
-                    tools:text="@tools:sample/full_names"/>
+                    tools:text="@tools:sample/full_names" />
 
             </LinearLayout>
 
@@ -85,6 +85,29 @@
                     android:layout_marginLeft="5dp"
                     android:contentDescription="@string/picture_2"
                     tools:src="@tools:sample/avatars[8]" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="@dimen/activity_vertical_margin">
+
+                <ProgressBar
+                    android:id="@+id/progressBar2"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <LinearLayout

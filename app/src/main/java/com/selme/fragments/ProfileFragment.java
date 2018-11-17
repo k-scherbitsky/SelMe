@@ -1,5 +1,6 @@
 package com.selme.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,18 +19,24 @@ import com.google.firebase.storage.StorageReference;
 import com.selme.R;
 import com.selme.dao.UserDAO;
 import com.selme.entity.UserEntity;
+import com.selme.interfaces.PictureLoaderCallback;
 import com.selme.interfaces.UserDAOCallback;
+import com.selme.modal.PictureLoader;
 
-public class ProfileFragment extends Fragment implements UserDAOCallback {
+public class ProfileFragment extends Fragment implements UserDAOCallback, PictureLoaderCallback {
     private static final String TAG = "ProfileFragment";
 
     private StorageReference mStorageRef;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
     private String userId;
+    private PictureLoader pictureLoader;
 
     private ProgressBar progressBar;
     private TextView userName;
     private TextView description;
     private ImageView profileImage;
+    private String avatarName;
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -46,7 +53,7 @@ public class ProfileFragment extends Fragment implements UserDAOCallback {
         super.onStart();
         View view = getView();
 
-        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        userId = auth.getCurrentUser().getUid();
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         progressBar = view.findViewById(R.id.progressBarProfile);
@@ -54,6 +61,8 @@ public class ProfileFragment extends Fragment implements UserDAOCallback {
 
         UserDAO userDAO = new UserDAO(this);
         userDAO.getUser(userId);
+
+        pictureLoader = new PictureLoader(auth, mStorageRef, getActivity(), this);
 
         userName = view.findViewById(R.id.userNameTextView);
         description = view.findViewById(R.id.profileDescriptionTextView);
@@ -71,7 +80,10 @@ public class ProfileFragment extends Fragment implements UserDAOCallback {
     public void onLoaded(UserEntity user) {
         userName.setText(getUserName(user.getFirstName(), user.getLastName()));
         description.setText(user.getDescription());
-        setProfilePhoto();
+        avatarName = user.getProfilePhoto();
+
+        mStorageRef = mStorageRef.child("profileImage/" + avatarName + ".jpg");
+        pictureLoader.getPhotoUri(mStorageRef);
     }
 
     @Override
@@ -79,21 +91,18 @@ public class ProfileFragment extends Fragment implements UserDAOCallback {
         Log.w(TAG, "onFailed: Data from db wasn't upload. Check log", error);
     }
 
-    private void setProfilePhoto(){
-        Log.d(TAG, "setProfilePhoto: set photo to profile photo");
-        String filePath = "profileImage/" + userId + ".jpg";
-        StorageReference riversRef = mStorageRef.child(filePath);
-
-        riversRef.getDownloadUrl().addOnSuccessListener(uri ->
-                Glide.with(getActivity())
-                        .load(uri)
-                        .apply(RequestOptions.circleCropTransform())
-                        .apply(RequestOptions.placeholderOf(R.mipmap.ic_launcher_round))
-                        .into(profileImage));
+    @Override
+    public void onPictureDownloaded(Uri uri) {
+        Glide.with(this)
+                .load(uri)
+                .apply(RequestOptions.circleCropTransform())
+                .apply(RequestOptions.placeholderOf(R.mipmap.ic_launcher_round))
+                .into(profileImage);
         progressBar.setVisibility(View.INVISIBLE);
     }
 
     private  String getUserName(String firstName, String lastName){
         return firstName + " " + lastName;
     }
+
 }

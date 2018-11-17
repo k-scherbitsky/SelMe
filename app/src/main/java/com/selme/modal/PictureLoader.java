@@ -8,44 +8,52 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.selme.interfaces.PictureLoaderCallback;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
-public class PictureUploader {
+public class PictureLoader{
 
     private FirebaseAuth auth;
     private StorageReference storageRef;
     private Activity activity;
+    private PictureLoaderCallback callback;
 
-    public PictureUploader(FirebaseAuth auth, StorageReference storageRef, Activity activity) {
+    public PictureLoader(FirebaseAuth auth, StorageReference storageRef, Activity activity) {
         this.auth = auth;
         this.storageRef = storageRef;
         this.activity = activity;
     }
 
-    public boolean uploadPhoto(Uri uri, String TAG, String folderName, String fileName) {
-        final boolean[] upload = new boolean[1];
+    public PictureLoader(FirebaseAuth auth, StorageReference storageRef, Activity activity, PictureLoaderCallback callback){
+        this.callback = callback;
+        this.auth = auth;
+        this.storageRef = storageRef;
+        this.activity = activity;
+    }
+
+    public void uploadPhoto(Uri uri, String TAG, String folderName, String fileName) {
         String filePath = folderName + "/" + fileName + ".jpg";
         StorageReference riversRef = storageRef.child(filePath);
 
         riversRef.putFile(uri)
                 .addOnSuccessListener(taskSnapshot -> {
                     // Get a URL to the uploaded content
-                    upload[0] = true;
                     Log.d(TAG, "uploadPhoto: photo is uploaded");
                 })
                 .addOnFailureListener(exception -> {
                     // Handle unsuccessful uploads
-                    upload[0] = true;
                     Log.d(TAG, "uploadPhoto: photo isn't uploaded. Check log");
                 });
-        return upload[0];
     }
 
+    public void getPhotoUri(StorageReference riversRef){
+        riversRef.getDownloadUrl().addOnSuccessListener(uri -> callback.onPictureDownloaded(uri));
+    }
 
     public Bitmap getBitmapImage(Bitmap bitmap, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {

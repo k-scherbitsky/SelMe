@@ -21,7 +21,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.selme.R;
 import com.selme.dao.PostDAO;
-import com.selme.modal.PictureUploader;
+import com.selme.interfaces.PictureLoaderCallback;
+import com.selme.modal.PictureLoader;
 
 import java.util.UUID;
 
@@ -49,7 +50,7 @@ public class CreatePostFragment extends Fragment {
     private Bitmap bitmapPicture1;
     private Bitmap bitmapPicture2;
 
-    private PictureUploader pictureUploader;
+    private PictureLoader pictureUploader;
 
     public CreatePostFragment() {
         // Required empty public constructor
@@ -63,7 +64,7 @@ public class CreatePostFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
-        pictureUploader = new PictureUploader(mAuth, mStorageRef, getActivity());
+        pictureUploader = new PictureLoader(mAuth, mStorageRef, getActivity());
 
         errorTextPic1 = view.findViewById(R.id.error_text_picture_1);
         errorTextPic2 = view.findViewById(R.id.error_text_picture_2);
@@ -159,6 +160,7 @@ public class CreatePostFragment extends Fragment {
     private String getUniqName(Uri uri) {
         String fileName = UUID.randomUUID().toString();
         pictureUploader.uploadPhoto(uri, TAG, "post", fileName);
+
         return fileName;
     }
 
