@@ -3,7 +3,9 @@ package com.selme.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.google.common.collect.Lists;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.selme.R;
@@ -21,6 +24,7 @@ import com.selme.dto.PostDTO;
 import com.selme.entity.PostEntity;
 import com.selme.interfaces.PostDTOCallback;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -32,6 +36,7 @@ public class DashboardFragment extends Fragment implements PostDTOCallback {
     private DataMapper dataMapper;
     private StorageReference storageRef;
     private ProgressBar progressBar;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public DashboardFragment() {
     }
@@ -42,11 +47,16 @@ public class DashboardFragment extends Fragment implements PostDTOCallback {
 
         View view = getView();
         storageRef = FirebaseStorage.getInstance().getReference();
+        dataMapper = new DataMapper(storageRef);
 
         recyclerView = view.findViewById(R.id.dashboard_recycler_view);
         progressBar = view.findViewById(R.id.progressBar_dashboard);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh_dashboard);
 
-        dataMapper = new DataMapper(storageRef);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            dataMapper.toPostDto(this);
+        });
+
         dataMapper.toPostDto(this);
 
         initRecyclerView();
@@ -76,7 +86,9 @@ public class DashboardFragment extends Fragment implements PostDTOCallback {
 
     @Override
     public void toDto(List<PostDTO> dto) {
-        dashboardAdapter.setItems(dto);
+        dashboardAdapter.clearItems();
+        dashboardAdapter.setItems(Lists.reverse(dto));
         progressBar.setVisibility(View.INVISIBLE);
+        swipeRefreshLayout.setRefreshing(false);
     }
 }
