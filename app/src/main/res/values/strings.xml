@@ -13,9 +13,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="permission_rationale">Contacts permissions are needed for providing email completions.</string>
     <string name="action_login">Login</string>
     <string name="action_create_account">No account yet? Create one</string>
     <string name="title_activity_signup">Sign up</string>
@@ -25,7 +23,7 @@
     <string name="last_name_edit_text">Last name</string>
     <string name="about_me">About me</string>
     <string name="city_edit_text">City</string>
-    <string name="dialog_authenticating">Authenticating...</string>
+    <string name="dialog_authenticating">Authenticating…</string>
     <string name="email_input_error">Enter a valid email address</string>
     <string name="password_input_error">Your password  must be more then 6 letters.</string>
     <string name="toast_login_failed">Login is failed!</string>
