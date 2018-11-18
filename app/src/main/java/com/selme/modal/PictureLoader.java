@@ -33,7 +33,7 @@ public class PictureLoader {
     }
 
     public void uploadPhoto(Uri uri, String TAG, String folderName, String fileName) {
-        String filePath = folderName + "/" + fileName + ".jpg";
+        String filePath = folderName + "/" + fileName;
         StorageReference riversRef = storageRef.child(filePath);
 
         riversRef.putFile(uri)

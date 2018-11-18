@@ -127,7 +127,7 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
 
     private void getProfilePhoto(String fileName, int pos) {
         Log.d(TAG, "getProfilePhoto: get photo from profile photo");
-        String filePath = "profileImage/" + fileName + ".jpg";
+        String filePath = "profileImage/" + fileName;
         StorageReference riversRef = storageRef.child(filePath);
 
         PictureLoader pictureLoader = new PictureLoader(riversRef, this);
@@ -136,7 +136,7 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
 
     private void getPicture(String fileName, int requestCode, int pos) {
         Log.d(TAG, "getPicture: get picture from post folder");
-        String filePath = "post/" + fileName + ".jpg";
+        String filePath = "post/" + fileName;
         StorageReference riversRef = storageRef.child(filePath);
 
         PictureLoader pictureLoader = new PictureLoader(riversRef, this);

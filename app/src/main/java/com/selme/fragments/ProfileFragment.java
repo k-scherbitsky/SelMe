@@ -82,7 +82,7 @@ public class ProfileFragment extends Fragment implements UserDAOCallback, Pictur
         description.setText(user.getDescription());
         avatarName = user.getProfilePhoto();
 
-        mStorageRef = mStorageRef.child("profileImage/" + avatarName + ".jpg");
+        mStorageRef = mStorageRef.child("profileImage/" + avatarName );
         pictureLoader.getPhotoUri(mStorageRef,0,  0);
     }
 
