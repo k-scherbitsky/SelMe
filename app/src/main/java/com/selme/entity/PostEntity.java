@@ -18,16 +18,22 @@ public class PostEntity implements Parcelable {
     private String photo1;
     private String photo2;
     private String userId;
+    private String docId;
+    private int pickPic1;
+    private int pickPic2;
 
     public PostEntity(){
 
     }
 
-    public PostEntity(String title, String description, String photo1, String photo2){
+    public PostEntity(String title, String description, String photo1, String photo2, String docId, int pickPic1, int pickPic2){
         this.title = title;
         this.description = description;
         this.photo1 = photo1;
         this.photo2 = photo2;
+        this.docId = docId;
+        this.pickPic1 = pickPic1;
+        this.pickPic2 = pickPic2;
     }
 
     public PostEntity(String title, String description, Date createdDate, String photo1, String photo2, String userId, LikesEntity likesEntity, CommentsEntity commentsEntity) {
@@ -45,6 +51,9 @@ public class PostEntity implements Parcelable {
         photo1 = in.readString();
         photo2 = in.readString();
         userId = in.readString();
+        docId = in.readString();
+        pickPic2 = in.readInt();
+        pickPic1 = in.readInt();
     }
 
     public String getTitle() {
@@ -106,13 +115,16 @@ public class PostEntity implements Parcelable {
                 Objects.equals(createdDate, that.createdDate) &&
                 Objects.equals(photo1, that.photo1) &&
                 Objects.equals(photo2, that.photo2) &&
+                Objects.equals(docId, that.docId) &&
+                Objects.equals(pickPic2, that.pickPic2) &&
+                Objects.equals(pickPic1, that.pickPic1) &&
                 Objects.equals(userId, that.userId);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(title, description, createdDate, photo1, photo2, userId);
+        return Objects.hash(title, description, createdDate, photo1, photo2, userId, docId, pickPic2, pickPic1);
     }
 
     public static final Creator<PostEntity> CREATOR = new Creator<PostEntity>() {
@@ -139,5 +151,32 @@ public class PostEntity implements Parcelable {
         parcel.writeString(photo1);
         parcel.writeString(photo2);
         parcel.writeString(userId);
+        parcel.writeString(docId);
+        parcel.writeInt(pickPic1);
+        parcel.writeInt(pickPic2);
+    }
+
+    public String getDocId() {
+        return docId;
+    }
+
+    public void setDocId(String docId) {
+        this.docId = docId;
+    }
+
+    public int getPickPic1() {
+        return pickPic1;
+    }
+
+    public void setPickPic1(int pickPic1) {
+        this.pickPic1 = pickPic1;
+    }
+
+    public int getPickPic2() {
+        return pickPic2;
+    }
+
+    public void setPickPic2(int pickPic2) {
+        this.pickPic2 = pickPic2;
     }
 }

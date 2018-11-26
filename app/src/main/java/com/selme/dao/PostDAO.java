@@ -17,7 +17,9 @@ import com.selme.entity.PostEntity;
 import com.selme.interfaces.PostDAOCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class PostDAO {
@@ -34,17 +36,41 @@ public class PostDAO {
     private Context context;
     private Activity activity;
 
+    public PostDAO() {
+    }
+
     public PostDAO(Context context, FragmentActivity activity) {
         this.context = context;
         this.activity = activity;
     }
 
-    public PostDAO(PostDAOCallback callback){
+    public PostDAO(PostDAOCallback callback) {
         this.callback = callback;
     }
 
-    public void createNewPost(ProgressDialog progressDialog, String title, String description, String userId, String nameOfPic1, String nameOfPic2){
-        Log.d(TAG, "createNewPost");
+    public void updateQntyPick(String docId, int numButton) {
+        DocumentReference ref = db.collection(COLLECTION_PATH_POST).document(docId);
+
+        ref.get().addOnSuccessListener(documentSnapshot -> {
+            PostEntity postEntity = documentSnapshot.toObject(PostEntity.class);
+            int qntyButton;
+
+            switch (numButton) {
+                case 1:
+                    qntyButton = postEntity != null ? postEntity.getPickPic1() : 0;
+                    ref.update("pickPic1", qntyButton + 1);
+                    break;
+                case 2:
+                    qntyButton = postEntity != null ? postEntity.getPickPic2() : 0;
+                    ref.update("pickPic2", qntyButton + 1);
+                default:
+                    break;
+            }
+        });
+    }
+
+    public void addNewPost(ProgressDialog progressDialog, String title, String description, String userId, String nameOfPic1, String nameOfPic2) {
+        Log.d(TAG, "addNewPost");
 
         PostEntity postEntity = new PostEntity();
 
@@ -53,27 +79,30 @@ public class PostDAO {
         postEntity.setPhoto1(nameOfPic1);
         postEntity.setPhoto2(nameOfPic2);
         postEntity.setUserId(userId);
+        postEntity.setDocId(docRef.getId());
+        postEntity.setPickPic1(0);
+        postEntity.setPickPic2(0);
 
         docRef.set(postEntity).addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                Log.d(TAG, "createNewPost: new post is created");
+            if (task.isSuccessful()) {
+                Log.d(TAG, "addNewPost: new post is created");
                 progressDialog.dismiss();
             } else {
-                Log.w(TAG, "createNewPost: new post isn't ctreated. Check log", task.getException());
+                Log.w(TAG, "addNewPost: new post isn't created. Check log", task.getException());
                 Toast.makeText(context, R.string.error_create_post, Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
     }
 
-    public void getPost(){
+    public void getPost() {
         Query query = collectionRef;
 
         query.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
+            if (task.isSuccessful()) {
                 PostEntity entity;
                 List<PostEntity> entities = new ArrayList<>();
-                for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                     entity = documentSnapshot.toObject(PostEntity.class);
                     entities.add(entity);
                 }

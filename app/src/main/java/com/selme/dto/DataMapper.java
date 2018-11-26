@@ -53,7 +53,7 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
             listSize = postEntityList.size();
 
             for (int i = 0; i < postEntityList.size(); i++) {
-                getUser(postEntityList.get(i).getUserId(), i);
+                getUser(postEntityList.get(i).getUserId(), i); // получение аватара, имени и фамилии по userId
 
                 getPicture(postEntityList.get(i).getPhoto1(), REQUEST_PICTURE_1, i);
                 getPicture(postEntityList.get(i).getPhoto2(), REQUEST_PICTURE_2, i);
@@ -62,6 +62,16 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
 
                 dto.setTitle(postEntityList.get(i).getTitle());
                 dto.setDescription(postEntityList.get(i).getDescription());
+                dto.setDocId(postEntityList.get(i).getDocId());
+                dto.setCreatedDate(postEntityList.get(i).getCreatedDate());
+
+                int pickPic1 = postEntityList.get(i).getPickPic1();
+                int pickPic2 = postEntityList.get(i).getPickPic2();
+                int amountPickPic = pickPic1 + pickPic2;
+
+                dto.setPickPic1(pickPic1);
+                dto.setPickPic2(pickPic2);
+                dto.setAmountPickPic(amountPickPic);
 
                 dtoList.add(dto);
             }
@@ -79,13 +89,7 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
             getProfilePhoto(fileName, pos);
         }
 
-        int checkPos = listSize - 1;
-        if(dtoList.get(checkPos).getAvatar() != null
-                && dtoList.get(checkPos).getPicture1() != null
-                && dtoList.get(checkPos).getPicture2() != null
-                && dtoList.get(checkPos).getUserName() != null) {
-            callback.toDto(dtoList);
-        }
+        doCallback(listSize, dtoList, callback);
     }
 
     @Override
@@ -104,15 +108,10 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
             default:
                 break;
         }
-        int checkPos = listSize - 1;
-        if(dtoList.get(checkPos).getAvatar() != null
-                && dtoList.get(checkPos).getPicture1() != null
-                && dtoList.get(checkPos).getPicture2() != null
-                && dtoList.get(checkPos).getUserName() != null) {
-            callback.toDto(dtoList);
-        }
 
+        doCallback(listSize, dtoList, callback);
     }
+
 
     @Override
     public void onPostFailed(Exception error) {
@@ -145,5 +144,15 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
 
     private void getUser(String userId, int pos) {
         userDAO.getUser(userId, REQUEST_USERNAME, pos);
+    }
+
+    private void doCallback(int listSize, List<PostDTO> dtoList, PostDTOCallback callback) {
+        int checkPos = listSize - 1;
+        if(dtoList.get(checkPos).getAvatar() != null
+                && dtoList.get(checkPos).getPicture1() != null
+                && dtoList.get(checkPos).getPicture2() != null
+                && dtoList.get(checkPos).getUserName() != null) {
+            callback.toDto(dtoList);
+        }
     }
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:padding="8dp">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
@@ -59,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    tools:text="@tools:sample/lorem"/>
+                    tools:text="@tools:sample/lorem" />
             </LinearLayout>
 
             <LinearLayout
@@ -72,8 +72,8 @@
                     android:id="@+id/postImage1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginRight="5dp"
+                    android:layout_weight="1"
                     android:contentDescription="@string/picture_1"
                     tools:src="@tools:sample/avatars[5]" />
 
@@ -81,8 +81,8 @@
                     android:id="@+id/postImage2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
                     android:contentDescription="@string/picture_2"
                     tools:src="@tools:sample/avatars[8]" />
             </LinearLayout>
@@ -94,20 +94,24 @@
                 android:padding="@dimen/activity_vertical_margin">
 
                 <ProgressBar
-                    android:id="@+id/progressBar2"
+                    android:id="@+id/progressBar1"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="wrap_content"
-                    android:layout_marginRight="5dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:theme="@style/ProgressBarCardView" />
 
                 <ProgressBar
-                    android:id="@+id/progressBar"
+                    android:id="@+id/progressBar2"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:theme="@style/ProgressBarCardView" />
             </LinearLayout>
 
             <LinearLayout
@@ -120,22 +124,20 @@
                     android:id="@+id/thisOneButton1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryLight"
-                    android:background="@color/colorPrimaryDark"
-                    android:layout_weight="1"
                     android:layout_marginRight="5dp"
+                    android:layout_weight="1"
                     android:text="@string/this_one"
+                    android:theme="@style/AppTheme.Button"
                     tools:ignore="ButtonStyle" />
 
                 <Button
                     android:id="@+id/thisOneButton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryLight"
-                    android:background="@color/colorPrimaryDark"
-                    android:layout_weight="1"
                     android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
                     android:text="@string/this_one"
+                    android:theme="@style/AppTheme.Button"
                     tools:ignore="ButtonStyle" />
             </LinearLayout>
         </LinearLayout>

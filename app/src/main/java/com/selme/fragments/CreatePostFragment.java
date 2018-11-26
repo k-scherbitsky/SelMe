@@ -21,7 +21,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.selme.R;
 import com.selme.dao.PostDAO;
-import com.selme.interfaces.PictureLoaderCallback;
 import com.selme.modal.PictureLoader;
 
 import java.util.UUID;
@@ -125,7 +124,7 @@ public class CreatePostFragment extends Fragment {
     }
 
     private void createNewPost() {
-        Log.d(TAG, "createNewPost");
+        Log.d(TAG, "addNewPost");
 
         if(!validate()){
             share.setEnabled(true);
@@ -145,7 +144,7 @@ public class CreatePostFragment extends Fragment {
         String namePic2 = getUniqName(uriPicture2);
 
         PostDAO postDAO = new PostDAO(getContext(), getActivity());
-        postDAO.createNewPost(progressDialog, titleText, descText, mAuth.getCurrentUser().getUid(), namePic1, namePic2);
+        postDAO.addNewPost(progressDialog, titleText, descText, mAuth.getCurrentUser().getUid(), namePic1, namePic2);
 
         clearForm();
     }

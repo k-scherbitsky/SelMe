@@ -1,18 +1,26 @@
 package com.selme.adapter;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.selme.R;
+import com.selme.dao.PostDAO;
 import com.selme.dto.PostDTO;
 import com.selme.entity.PostEntity;
 
@@ -22,14 +30,23 @@ import java.util.List;
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.DashboardViewHolder> {
 
-    private List<PostDTO> postEntityList = new ArrayList<>();
+    private static final String TAG = "DashboardAdapter";
+    private static final int BUTTON_1 = 1;
+    private static final int BUTTON_2 = 2;
 
-    public void setItems(Collection<PostDTO> posts){
+    private List<PostDTO> postEntityList = new ArrayList<>();
+    private RecyclerView recyclerView;
+
+    public DashboardAdapter(RecyclerView recyclerView) {
+        this.recyclerView = recyclerView;
+    }
+
+    public void setItems(Collection<PostDTO> posts) {
         postEntityList.addAll(posts);
         notifyDataSetChanged();
     }
 
-    public void clearItems(){
+    public void clearItems() {
         postEntityList.clear();
         notifyDataSetChanged();
     }
@@ -44,10 +61,68 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
         return new DashboardViewHolder(view);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull DashboardViewHolder dashboardViewHolder, int i) {
+
+        Button thisOneButton1 = dashboardViewHolder.thisOneButton1;
+        thisOneButton1.setOnClickListener(view1 -> addProgressBarValue(dashboardViewHolder, BUTTON_1));
+
+        Button thisOneButton2 = dashboardViewHolder.thisOneButton2;
+        thisOneButton2.setOnClickListener(view1 -> addProgressBarValue(dashboardViewHolder, BUTTON_2));
+
         dashboardViewHolder.bind(postEntityList.get(i));
     }
+
+    private void addProgressBarValue(DashboardViewHolder dashboardViewHolder, int button) {
+
+        Button buttonView1 = dashboardViewHolder.thisOneButton1;
+        Button buttonView2 = dashboardViewHolder.thisOneButton2;
+        buttonView1.setEnabled(false);
+        buttonView2.setEnabled(false);
+
+        int adapterPosition = dashboardViewHolder.getAdapterPosition();
+        String docId = postEntityList.get(adapterPosition).getDocId();
+
+        PostDAO postDAO = new PostDAO();
+        switch (button) {
+            case BUTTON_1:
+                postDAO.updateQntyPick(docId, BUTTON_1);
+                break;
+            case BUTTON_2:
+                postDAO.updateQntyPick(docId, BUTTON_2);
+                break;
+        }
+
+        final DocumentReference docRef = FirebaseFirestore.getInstance().collection("post").document(docId);
+        docRef.addSnapshotListener((documentSnapshot, e) -> {
+            ProgressBar progressBar1 = dashboardViewHolder.progressBar1;
+            ProgressBar progressBar2 = dashboardViewHolder.progressBar2;
+
+            if (e != null){
+                Log.w(TAG, "addProgressBarValue: ", e);
+            }
+
+            if (documentSnapshot != null && documentSnapshot.exists()){
+                PostEntity postEntity = documentSnapshot.toObject(PostEntity.class);
+                int pickPic1 = postEntity != null ? postEntity.getPickPic1() : 0;
+                int pickPic2 = postEntity != null ? postEntity.getPickPic2() : 0;
+
+                int amount = pickPic1 + pickPic2;
+                int valueProgressBar1 = dashboardViewHolder.calcValue(pickPic1, amount);
+                int valueProgressBar2 = dashboardViewHolder.calcValue(pickPic2, amount);
+
+                progressBar1.setProgress(valueProgressBar1);
+                progressBar2.setProgress(valueProgressBar2);
+
+            } else {
+                Toast.makeText(dashboardViewHolder.itemView.getContext(), "Nothing to update", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "addProgressBarValue: ");
+            }
+        });
+
+    }
+
 
     @Override
     public int getItemCount() {
@@ -55,7 +130,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
     }
 
 
-    public class DashboardViewHolder extends RecyclerView.ViewHolder{
+    public class DashboardViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView avatarImageView;
         private TextView userName;
@@ -65,6 +140,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
         private ImageView picture2;
         private Button thisOneButton1;
         private Button thisOneButton2;
+        private ProgressBar progressBar1;
+        private ProgressBar progressBar2;
 
         public DashboardViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -72,28 +149,37 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             avatarImageView = itemView.findViewById(R.id.post_avatar);
             userName = itemView.findViewById(R.id.post_username);
 
-            title =  itemView.findViewById(R.id.titlePostTextView);
+            title = itemView.findViewById(R.id.titlePostTextView);
             description = itemView.findViewById(R.id.descriptionPostTextView);
             picture1 = itemView.findViewById(R.id.postImage1);
             picture2 = itemView.findViewById(R.id.postImage2);
             thisOneButton1 = itemView.findViewById(R.id.thisOneButton1);
             thisOneButton2 = itemView.findViewById(R.id.thisOneButton2);
+            progressBar1 = itemView.findViewById(R.id.progressBar1);
+            progressBar2 = itemView.findViewById(R.id.progressBar2);
 
         }
-        public void bind(PostDTO entity){
-            if(entity.getUserName() != null){
-                userName.setText(entity.getUserName());
+
+        public void bind(PostDTO postDTO) {
+            if (postDTO.getUserName() != null) {
+                userName.setText(postDTO.getUserName());
             }
-            if(entity.getTitle() != null){
-                title.setText(entity.getTitle());
+            if (postDTO.getTitle() != null) {
+                title.setText(postDTO.getTitle());
             }
-            if(entity.getDescription() != null){
-                description.setText(entity.getDescription());
+            if (postDTO.getDescription() != null) {
+                description.setText(postDTO.getDescription());
             }
 
-            Uri avatar = entity.getAvatar();
-            Uri pic1 = entity.getPicture1();
-            Uri pic2 = entity.getPicture2();
+            int valueProgressBar1 = calcValue(postDTO.getPickPic1(), postDTO.getAmountPickPic());
+            int valueProgressBar2 = calcValue(postDTO.getPickPic2(), postDTO.getAmountPickPic());
+
+            progressBar1.setProgress(valueProgressBar1);
+            progressBar2.setProgress(valueProgressBar2);
+
+            Uri avatar = postDTO.getAvatar();
+            Uri pic1 = postDTO.getPicture1();
+            Uri pic2 = postDTO.getPicture2();
 
 
             Glide.with(itemView.getContext()).load(avatar).apply(RequestOptions.circleCropTransform()).into(avatarImageView);
@@ -103,6 +189,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             picture1.setVisibility(avatar != null ? View.VISIBLE : View.GONE);
             picture1.setVisibility(pic1 != null ? View.VISIBLE : View.GONE);
             picture2.setVisibility(pic2 != null ? View.VISIBLE : View.GONE);
+        }
+
+        private int calcValue(int pickPic, int amountPickPic) {
+            if (amountPickPic == 0) return 0;
+            else return (pickPic * 100) / amountPickPic;
         }
     }
 
