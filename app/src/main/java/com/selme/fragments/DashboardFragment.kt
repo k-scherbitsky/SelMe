@@ -24,7 +24,7 @@ class DashboardFragment : Fragment(), PostDTOCallback {
     private var dashboardAdapter: DashboardAdapter? = null
     private var progressBar: ProgressBar? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
-    
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -44,7 +44,7 @@ class DashboardFragment : Fragment(), PostDTOCallback {
 
     private fun initRecyclerView(view: View) {
         view.dashboard_recycler_view.layoutManager = LinearLayoutManager(context)
-        dashboardAdapter = DashboardAdapter(view.dashboard_recycler_view)
+        dashboardAdapter = DashboardAdapter()
         view.dashboard_recycler_view.adapter = dashboardAdapter
 
         val itemDecoration = DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)

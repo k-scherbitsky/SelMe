@@ -35,11 +35,6 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
     private static final int BUTTON_2 = 2;
 
     private List<PostDTO> postEntityList = new ArrayList<>();
-    private RecyclerView recyclerView;
-
-    public DashboardAdapter(RecyclerView recyclerView) {
-        this.recyclerView = recyclerView;
-    }
 
     public void setItems(Collection<PostDTO> posts) {
         postEntityList.addAll(posts);
@@ -84,7 +79,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
         int adapterPosition = dashboardViewHolder.getAdapterPosition();
         String docId = postEntityList.get(adapterPosition).getDocId();
 
-        PostDAO postDAO = new PostDAO();
+        PostDAO postDAO = new PostDAO(dashboardViewHolder.itemView.getContext());
         switch (button) {
             case BUTTON_1:
                 postDAO.updateQntyPick(docId, BUTTON_1);
@@ -94,43 +89,15 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
                 break;
         }
 
-        final DocumentReference docRef = FirebaseFirestore.getInstance().collection("post").document(docId);
-        docRef.addSnapshotListener((documentSnapshot, e) -> {
-            ProgressBar progressBar1 = dashboardViewHolder.progressBar1;
-            ProgressBar progressBar2 = dashboardViewHolder.progressBar2;
-
-            if (e != null){
-                Log.w(TAG, "addProgressBarValue: ", e);
-            }
-
-            if (documentSnapshot != null && documentSnapshot.exists()){
-                PostEntity postEntity = documentSnapshot.toObject(PostEntity.class);
-                int pickPic1 = postEntity != null ? postEntity.getPickPic1() : 0;
-                int pickPic2 = postEntity != null ? postEntity.getPickPic2() : 0;
-
-                int amount = pickPic1 + pickPic2;
-                int valueProgressBar1 = dashboardViewHolder.calcValue(pickPic1, amount);
-                int valueProgressBar2 = dashboardViewHolder.calcValue(pickPic2, amount);
-
-                progressBar1.setProgress(valueProgressBar1);
-                progressBar2.setProgress(valueProgressBar2);
-
-            } else {
-                Toast.makeText(dashboardViewHolder.itemView.getContext(), "Nothing to update", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "addProgressBarValue: ");
-            }
-        });
-
+        postDAO.updateProgressBar(docId, dashboardViewHolder.progressBar1, dashboardViewHolder.progressBar2);
     }
-
 
     @Override
     public int getItemCount() {
         return postEntityList.size();
     }
 
-
-    public class DashboardViewHolder extends RecyclerView.ViewHolder {
+    class DashboardViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView avatarImageView;
         private TextView userName;
@@ -143,7 +110,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
         private ProgressBar progressBar1;
         private ProgressBar progressBar2;
 
-        public DashboardViewHolder(@NonNull View itemView) {
+        DashboardViewHolder(@NonNull View itemView) {
             super(itemView);
 
             avatarImageView = itemView.findViewById(R.id.post_avatar);
@@ -160,7 +127,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
 
         }
 
-        public void bind(PostDTO postDTO) {
+        void bind(PostDTO postDTO) {
             if (postDTO.getUserName() != null) {
                 userName.setText(postDTO.getUserName());
             }
@@ -170,12 +137,6 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             if (postDTO.getDescription() != null) {
                 description.setText(postDTO.getDescription());
             }
-
-            int valueProgressBar1 = calcValue(postDTO.getPickPic1(), postDTO.getAmountPickPic());
-            int valueProgressBar2 = calcValue(postDTO.getPickPic2(), postDTO.getAmountPickPic());
-
-            progressBar1.setProgress(valueProgressBar1);
-            progressBar2.setProgress(valueProgressBar2);
 
             Uri avatar = postDTO.getAvatar();
             Uri pic1 = postDTO.getPicture1();
@@ -190,12 +151,5 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             picture1.setVisibility(pic1 != null ? View.VISIBLE : View.GONE);
             picture2.setVisibility(pic2 != null ? View.VISIBLE : View.GONE);
         }
-
-        private int calcValue(int pickPic, int amountPickPic) {
-            if (amountPickPic == 0) return 0;
-            else return (pickPic * 100) / amountPickPic;
-        }
     }
-
-
 }

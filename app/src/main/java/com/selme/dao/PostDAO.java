@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.CollectionReference;
@@ -34,14 +35,12 @@ public class PostDAO {
     private PostDAOCallback callback;
 
     private Context context;
-    private Activity activity;
 
     public PostDAO() {
     }
 
-    public PostDAO(Context context, FragmentActivity activity) {
+    public PostDAO(Context context) {
         this.context = context;
-        this.activity = activity;
     }
 
     public PostDAO(PostDAOCallback callback) {
@@ -49,6 +48,7 @@ public class PostDAO {
     }
 
     public void updateQntyPick(String docId, int numButton) {
+        Log.d(TAG, "updateQntyPick: Update values in database");
         DocumentReference ref = db.collection(COLLECTION_PATH_POST).document(docId);
 
         ref.get().addOnSuccessListener(documentSnapshot -> {
@@ -63,8 +63,36 @@ public class PostDAO {
                 case 2:
                     qntyButton = postEntity != null ? postEntity.getPickPic2() : 0;
                     ref.update("pickPic2", qntyButton + 1);
-                default:
-                    break;
+            }
+        });
+    }
+
+    public void updateProgressBar(String docId, ProgressBar progressBar1, ProgressBar progressBar2){
+        final DocumentReference docRef = FirebaseFirestore.getInstance()
+                .collection("post")
+                .document(docId);
+
+        docRef.addSnapshotListener((documentSnapshot, e) -> {
+
+            if (e != null){
+                Log.w(TAG, "addProgressBarValue: ", e);
+            }
+
+            if (documentSnapshot != null && documentSnapshot.exists()){
+                PostEntity postEntity = documentSnapshot.toObject(PostEntity.class);
+                int pickPic1 = postEntity != null ? postEntity.getPickPic1() : 0;
+                int pickPic2 = postEntity != null ? postEntity.getPickPic2() : 0;
+
+                int amount = pickPic1 + pickPic2;
+                int valueProgressBar1 = calcValue(pickPic1, amount);
+                int valueProgressBar2 = calcValue(pickPic2, amount);
+
+                progressBar1.setProgress(valueProgressBar1);
+                progressBar2.setProgress(valueProgressBar2);
+
+            } else {
+                Toast.makeText(context, "Nothing to update", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "addProgressBarValue: ");
             }
         });
     }
@@ -114,4 +142,8 @@ public class PostDAO {
     }
 
 
+    private int calcValue(int pickPic, int amountPickPic) {
+        if (amountPickPic == 0) return 0;
+        else return (pickPic * 100) / amountPickPic;
+    }
 }
