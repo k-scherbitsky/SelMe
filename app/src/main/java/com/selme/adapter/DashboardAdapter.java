@@ -1,8 +1,10 @@
 package com.selme.adapter;
 
 import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.selme.R;
@@ -109,6 +115,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
         private Button thisOneButton2;
         private ProgressBar progressBar1;
         private ProgressBar progressBar2;
+        private ProgressBar progressBarPic1;
+        private ProgressBar progressBarPic2;
 
         DashboardViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -124,6 +132,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             thisOneButton2 = itemView.findViewById(R.id.thisOneButton2);
             progressBar1 = itemView.findViewById(R.id.progressBar1);
             progressBar2 = itemView.findViewById(R.id.progressBar2);
+            progressBarPic1 = itemView.findViewById(R.id.progressBar_pic1);
+            progressBarPic2 = itemView.findViewById(R.id.progressBar_pic2);
 
         }
 
@@ -143,9 +153,42 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             Uri pic2 = postDTO.getPicture2();
 
 
-            Glide.with(itemView.getContext()).load(avatar).apply(RequestOptions.circleCropTransform()).into(avatarImageView);
-            Glide.with(itemView.getContext()).load(pic1).into(picture1);
-            Glide.with(itemView.getContext()).load(pic2).into(picture2);
+            Glide.with(itemView.getContext())
+                    .load(avatar)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(avatarImageView);
+
+            Glide.with(itemView.getContext())
+                    .load(pic1)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            progressBarPic1.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
+                    .into(picture1);
+
+            Glide.with(itemView.getContext())
+                    .load(pic2)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            progressBarPic2.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
+                    .into(picture2);
 
             picture1.setVisibility(avatar != null ? View.VISIBLE : View.GONE);
             picture1.setVisibility(pic1 != null ? View.VISIBLE : View.GONE);
