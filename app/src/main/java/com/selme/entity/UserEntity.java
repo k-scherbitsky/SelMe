@@ -1,14 +1,11 @@
 package com.selme.entity;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.util.Objects;
 
 @IgnoreExtraProperties
-public class UserEntity implements Parcelable {
+public class UserEntity {
 
     private String firstName;
     private String lastName;
@@ -26,14 +23,6 @@ public class UserEntity implements Parcelable {
         this.description = description;
         this.profilePhoto = profilePhoto;
         this.userId = userId;
-    }
-
-    protected UserEntity(Parcel in) {
-        firstName = in.readString();
-        lastName = in.readString();
-        description = in.readString();
-        profilePhoto = in.readString();
-        userId = in.readString();
     }
 
     public String getFirstName() {
@@ -76,18 +65,6 @@ public class UserEntity implements Parcelable {
         this.userId = userId;
     }
 
-    public static final Creator<UserEntity> CREATOR = new Creator<UserEntity>() {
-        @Override
-        public UserEntity createFromParcel(Parcel in) {
-            return new UserEntity(in);
-        }
-
-        @Override
-        public UserEntity[] newArray(int size) {
-            return new UserEntity[size];
-        }
-    };
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -104,19 +81,5 @@ public class UserEntity implements Parcelable {
     public int hashCode() {
 
         return Objects.hash(firstName, lastName, description, profilePhoto, userId);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(firstName);
-        parcel.writeString(lastName);
-        parcel.writeString(description);
-        parcel.writeString(profilePhoto);
-        parcel.writeString(userId);
     }
 }

@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @IgnoreExtraProperties
-public class CommentsEntity implements Parcelable {
+public class CommentsEntity {
 
     private String comment;
     private String commentUser;
@@ -22,10 +22,6 @@ public class CommentsEntity implements Parcelable {
         this.createdDate = createdDate;
     }
 
-    protected CommentsEntity(Parcel in) {
-        comment = in.readString();
-        commentUser = in.readString();
-    }
 
     public String getComment() {
         return comment;
@@ -67,26 +63,4 @@ public class CommentsEntity implements Parcelable {
         return Objects.hash(comment, commentUser, createdDate);
     }
 
-    public static final Creator<CommentsEntity> CREATOR = new Creator<CommentsEntity>() {
-        @Override
-        public CommentsEntity createFromParcel(Parcel in) {
-            return new CommentsEntity(in);
-        }
-
-        @Override
-        public CommentsEntity[] newArray(int size) {
-            return new CommentsEntity[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(comment);
-        parcel.writeString(commentUser);
-    }
 }

@@ -1,8 +1,5 @@
 package com.selme.entity;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.ServerTimestamp;
 
@@ -10,7 +7,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @IgnoreExtraProperties
-public class PostEntity implements Parcelable {
+public class PostEntity{
 
     private String title;
     private String description;
@@ -36,25 +33,7 @@ public class PostEntity implements Parcelable {
         this.pickPic2 = pickPic2;
     }
 
-    public PostEntity(String title, String description, Date createdDate, String photo1, String photo2, String userId, LikesEntity likesEntity, CommentsEntity commentsEntity) {
-        this.title = title;
-        this.description = description;
-        this.createdDate = createdDate;
-        this.photo1 = photo1;
-        this.photo2 = photo2;
-        this.userId = userId;
-    }
 
-    protected PostEntity(Parcel in) {
-        title = in.readString();
-        description = in.readString();
-        photo1 = in.readString();
-        photo2 = in.readString();
-        userId = in.readString();
-        docId = in.readString();
-        pickPic2 = in.readInt();
-        pickPic1 = in.readInt();
-    }
 
     public String getTitle() {
         return title;
@@ -125,35 +104,6 @@ public class PostEntity implements Parcelable {
     public int hashCode() {
 
         return Objects.hash(title, description, createdDate, photo1, photo2, userId, docId, pickPic2, pickPic1);
-    }
-
-    public static final Creator<PostEntity> CREATOR = new Creator<PostEntity>() {
-        @Override
-        public PostEntity createFromParcel(Parcel in) {
-            return new PostEntity(in);
-        }
-
-        @Override
-        public PostEntity[] newArray(int size) {
-            return new PostEntity[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(title);
-        parcel.writeString(description);
-        parcel.writeString(photo1);
-        parcel.writeString(photo2);
-        parcel.writeString(userId);
-        parcel.writeString(docId);
-        parcel.writeInt(pickPic1);
-        parcel.writeInt(pickPic2);
     }
 
     public String getDocId() {

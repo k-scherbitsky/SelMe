@@ -143,7 +143,7 @@ public class CreatePostFragment extends Fragment {
         String namePic1 = getUniqName(uriPicture1);
         String namePic2 = getUniqName(uriPicture2);
 
-        PostDAO postDAO = new PostDAO(getContext(), getActivity());
+        PostDAO postDAO = new PostDAO(getContext());
         postDAO.addNewPost(progressDialog, titleText, descText, mAuth.getCurrentUser().getUid(), namePic1, namePic2);
 
         clearForm();
