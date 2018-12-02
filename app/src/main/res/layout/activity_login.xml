@@ -72,5 +72,14 @@
             android:text="@string/action_create_account"
             android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/link_forgot_password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:text="@string/forgot_my_password_reset"
+            android:textSize="16sp" />
+
     </LinearLayout>
 </ScrollView>

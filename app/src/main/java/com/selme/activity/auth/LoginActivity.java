@@ -25,6 +25,7 @@ import com.selme.activity.MainActivity;
 public class LoginActivity extends AppCompatActivity {
 
     private static final int REQUEST_SIGNUP = 0;
+    private static final int REQUEST_FORGOT_PASSWORD = 1;
     private static final String TAG = "LoginActivity";
 
     private FirebaseAuth mAuth;
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordText;
     private Button loginButton;
     private TextView signUpLink;
+    private TextView forgotPasswordLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordText = findViewById(R.id.input_password);
         loginButton = findViewById(R.id.btn_login);
         signUpLink = findViewById(R.id.link_signup);
+        forgotPasswordLink = findViewById(R.id.link_forgot_password);
 
         loginButton.setOnClickListener(view -> login());
 
@@ -52,6 +55,11 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
             startActivityForResult(intent, REQUEST_SIGNUP);
             finish();
+        });
+
+        forgotPasswordLink.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivityForResult(intent, REQUEST_FORGOT_PASSWORD);
         });
 
     }
