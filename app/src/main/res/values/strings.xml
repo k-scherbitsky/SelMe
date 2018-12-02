@@ -6,7 +6,7 @@
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
     <string name="prompt_email" translatable="false">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -54,4 +54,7 @@
     <string name="posting_progress_dialog">Posting...</string>
     <string name="error_create_post">Error! Post doesn\'t create</string>
     <string name="you_voted">You have already voted</string>
+    <string name="repeat_your_password">Repeat your password</string>
+    <string name="password_not_equals">Passwords doesn\'t equals!</string>
+    <string name="upload_your_avatar">Upload your avatar</string>
 </resources>

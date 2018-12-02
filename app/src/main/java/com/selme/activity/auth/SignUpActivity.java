@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText aboutMeText;
     private EditText emailText;
     private EditText passwordText;
+    private EditText passwordRepeatText;
     private Button signUpButton;
     private TextView loginLink;
 
@@ -64,6 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
         aboutMeText = findViewById(R.id.input_about_me);
         emailText = findViewById(R.id.input_email);
         passwordText = findViewById(R.id.input_password);
+        passwordRepeatText = findViewById(R.id.input_password_repeat);
         signUpButton = findViewById(R.id.btn_signup);
         loginLink = findViewById(R.id.link_login);
 
@@ -113,7 +116,6 @@ public class SignUpActivity extends AppCompatActivity {
                 try {
                     currentPhoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
                     profileImage.setImageBitmap(currentPhoto);
-                    Toast.makeText(getBaseContext(), photoUri.getPath(), Toast.LENGTH_LONG).show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -162,14 +164,14 @@ public class SignUpActivity extends AppCompatActivity {
                         Log.d(TAG, "createUserWithEmailAndPassword:  success.");
                     } else {
                         progressDialog.dismiss();
+                        onSignUpFailed();
                         Log.d(TAG, "createUserWithEmailAndPassword:  failure");
                     }
                 });
     }
 
     private void onSignUpFailed() {
-        Toast.makeText(getBaseContext(), R.string.toast_sign_up_failed, Toast.LENGTH_SHORT).show();
-
+        Snackbar.make(getCurrentFocus(), R.string.toast_sign_up_failed, Snackbar.LENGTH_SHORT).show();
         signUpButton.setEnabled(true);
     }
 
@@ -186,6 +188,14 @@ public class SignUpActivity extends AppCompatActivity {
 
         String firstName = firstNameText.getText().toString();
         String lastName = lastNameText.getText().toString();
+        String email = emailText.getText().toString();
+        String password = passwordText.getText().toString();
+        String passwordRepeat = passwordRepeatText.getText().toString();
+
+        if(photoUri == null){
+            Snackbar.make(getCurrentFocus(), R.string.upload_your_avatar, Snackbar.LENGTH_SHORT).show();
+            validate = false;
+        }
 
         if (firstName.isEmpty()) {
             firstNameText.setError(getString(R.string.first_name_input_error));
@@ -199,6 +209,36 @@ public class SignUpActivity extends AppCompatActivity {
             validate = false;
         } else {
             lastNameText.setError(null);
+        }
+
+        if(email.isEmpty()){
+            emailText.setError("Enter your e-mail");
+            validate = false;
+        } else {
+            emailText.setError(null);
+        }
+
+        if(password.isEmpty()){
+            passwordText.setError("Enter your password");
+            validate = false;
+        } else {
+            passwordText.setError(null);
+        }
+
+        if(passwordRepeat.isEmpty()){
+            passwordRepeatText.setError("Repeat your password");
+            validate = false;
+        } else {
+            passwordRepeatText.setError(null);
+        }
+
+        if(!password.equals(passwordRepeat)){
+            passwordText.setError(getString(R.string.password_not_equals));
+            passwordRepeatText.setError(getString(R.string.password_not_equals));
+            validate = false;
+        } else {
+            passwordText.setError(null);
+            passwordRepeatText.setError(null);
         }
 
         return validate;

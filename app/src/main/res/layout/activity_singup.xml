@@ -102,6 +102,21 @@
                 android:autofillHints="" />
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:id="@+id/input_password_repeat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/repeat_your_password"
+                android:inputType="textPassword"
+                android:autofillHints="" />
+        </android.support.design.widget.TextInputLayout>
+
         <!-- Signup Button -->
         <Button
             android:id="@+id/btn_signup"
