@@ -21,7 +21,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="25dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -93,11 +94,18 @@
                     tools:text="@tools:sample/lorem"/>
             </LinearLayout>
         </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/profileRecyclerView"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/profile_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <!--<ProgressBar-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content" />-->
+        </FrameLayout>
 
     </LinearLayout>
 </FrameLayout>

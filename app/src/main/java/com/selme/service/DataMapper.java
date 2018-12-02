@@ -35,13 +35,13 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
         this.storageRef = storageRef;
     }
 
-    public void toPostDto(PostDTOCallback callback) {
+    public void toPostDto(PostDTOCallback callback, boolean isProfile) {
         this.callback = callback;
 
         userDAO = new UserDAO(this);
 
         PostDAO postDAO = new PostDAO(this);
-        postDAO.getPost();
+        postDAO.getPost(isProfile);
     }
 
     @Override

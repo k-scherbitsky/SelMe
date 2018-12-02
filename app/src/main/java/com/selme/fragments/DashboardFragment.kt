@@ -33,8 +33,8 @@ class DashboardFragment : Fragment(), PostDTOCallback {
 
         val storageRef = FirebaseStorage.getInstance().reference
         val dataMapper = DataMapper(storageRef)
-        swipeRefreshLayout?.setOnRefreshListener { dataMapper.toPostDto(this) }
-        dataMapper.toPostDto(this)
+        swipeRefreshLayout?.setOnRefreshListener { dataMapper.toPostDto(this, false) }
+        dataMapper.toPostDto(this, false)
 
         initRecyclerView(view)
 

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -130,9 +131,14 @@ public class PostDAO {
         });
     }
 
-    public void getPost() {
-        Query query = collectionRef;
-
+    public void getPost(boolean isProfile) {
+        Query query;
+        if (isProfile) {
+            String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            query = collectionRef.whereEqualTo("userId", currentUserId);
+        } else {
+            query = collectionRef;
+        }
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 PostEntity entity;
