@@ -1,4 +1,4 @@
-package com.selme.modal;
+package com.selme.service;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.selme.dto;
+package com.selme.service;
 
 import android.net.Uri;
 import android.util.Log;
@@ -6,13 +6,13 @@ import android.util.Log;
 import com.google.firebase.storage.StorageReference;
 import com.selme.dao.PostDAO;
 import com.selme.dao.UserDAO;
+import com.selme.dto.PostDTO;
 import com.selme.entity.PostEntity;
 import com.selme.entity.UserEntity;
 import com.selme.interfaces.PictureLoaderCallback;
 import com.selme.interfaces.PostDAOCallback;
 import com.selme.interfaces.PostDTOCallback;
 import com.selme.interfaces.UserDAOCallback;
-import com.selme.modal.PictureLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +73,8 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
                 dto.setPickPic2(pickPic2);
                 dto.setAmountPickPic(amountPickPic);
 
+                dto.setVotedUserIds(postEntityList.get(i).getVotedUserIds());
+
                 dtoList.add(dto);
             }
         }
@@ -89,7 +91,7 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
             getProfilePhoto(fileName, pos);
         }
 
-        doCallback(listSize, dtoList, callback);
+        doCallback(listSize, dtoList, callback); // проверка можно ли делать callback. Все ли данные уже получены из бд.
     }
 
     @Override
@@ -109,9 +111,8 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
                 break;
         }
 
-        doCallback(listSize, dtoList, callback);
+        doCallback(listSize, dtoList, callback); // проверка можно ли делать callback. Все ли данные уже получены из бд.
     }
-
 
     @Override
     public void onPostFailed(Exception error) {

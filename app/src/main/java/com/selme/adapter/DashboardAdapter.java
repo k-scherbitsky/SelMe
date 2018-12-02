@@ -6,9 +6,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,12 +21,11 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.FirebaseAuth;
 import com.selme.R;
 import com.selme.dao.PostDAO;
 import com.selme.dto.PostDTO;
-import com.selme.entity.PostEntity;
+import com.selme.service.PostService;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,15 +37,16 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
     private static final int BUTTON_1 = 1;
     private static final int BUTTON_2 = 2;
 
-    private List<PostDTO> postEntityList = new ArrayList<>();
+    private List<PostDTO> postDtoList = new ArrayList<>();
+    private String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     public void setItems(Collection<PostDTO> posts) {
-        postEntityList.addAll(posts);
+        postDtoList.addAll(posts);
         notifyDataSetChanged();
     }
 
     public void clearItems() {
-        postEntityList.clear();
+        postDtoList.clear();
         notifyDataSetChanged();
     }
 
@@ -72,7 +70,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
         Button thisOneButton2 = dashboardViewHolder.thisOneButton2;
         thisOneButton2.setOnClickListener(view1 -> addProgressBarValue(dashboardViewHolder, BUTTON_2));
 
-        dashboardViewHolder.bind(postEntityList.get(i));
+        dashboardViewHolder.bind(postDtoList.get(i));
     }
 
     private void addProgressBarValue(DashboardViewHolder dashboardViewHolder, int button) {
@@ -83,24 +81,31 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
         buttonView2.setEnabled(false);
 
         int adapterPosition = dashboardViewHolder.getAdapterPosition();
-        String docId = postEntityList.get(adapterPosition).getDocId();
+        String docId = postDtoList.get(adapterPosition).getDocId();
+        List<String> votedUserIds = postDtoList.get(adapterPosition).getVotedUserIds();
 
-        PostDAO postDAO = new PostDAO(dashboardViewHolder.itemView.getContext());
-        switch (button) {
-            case BUTTON_1:
-                postDAO.updateQntyPick(docId, BUTTON_1);
-                break;
-            case BUTTON_2:
-                postDAO.updateQntyPick(docId, BUTTON_2);
-                break;
+        if (!votedUserIds.contains(currentUserId)) {
+            votedUserIds.add(currentUserId);
+
+            PostDAO postDAO = new PostDAO(dashboardViewHolder.itemView.getContext());
+            switch (button) {
+                case BUTTON_1:
+                    postDAO.updateQntyPick(docId, BUTTON_1, votedUserIds);
+                    break;
+                case BUTTON_2:
+                    postDAO.updateQntyPick(docId, BUTTON_2, votedUserIds);
+                    break;
+            }
+
+            postDAO.updateProgressBar(docId, dashboardViewHolder.progressBar1, dashboardViewHolder.progressBar2);
+        } else {
+            Toast.makeText(dashboardViewHolder.itemView.getContext(), R.string.you_voted, Toast.LENGTH_SHORT).show();
         }
-
-        postDAO.updateProgressBar(docId, dashboardViewHolder.progressBar1, dashboardViewHolder.progressBar2);
     }
 
     @Override
     public int getItemCount() {
-        return postEntityList.size();
+        return postDtoList.size();
     }
 
     class DashboardViewHolder extends RecyclerView.ViewHolder {
@@ -190,9 +195,19 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
                     })
                     .into(picture2);
 
-            picture1.setVisibility(avatar != null ? View.VISIBLE : View.GONE);
+            avatarImageView.setVisibility(avatar != null ? View.VISIBLE : View.GONE);
             picture1.setVisibility(pic1 != null ? View.VISIBLE : View.GONE);
             picture2.setVisibility(pic2 != null ? View.VISIBLE : View.GONE);
+
+            List<String> votedUserIds = postDTO.getVotedUserIds();
+            PostService service = new PostService();
+            int pickPic1 = postDTO.getPickPic1();
+            int pickPic2 = postDTO.getPickPic2();
+            int amountPick = pickPic1 + pickPic2;
+            if(votedUserIds.contains(currentUserId)){
+                progressBar1.setProgress(service.calcValue(pickPic1, amountPick));
+                progressBar2.setProgress(service.calcValue(pickPic2, amountPick));
+            }
         }
     }
 }

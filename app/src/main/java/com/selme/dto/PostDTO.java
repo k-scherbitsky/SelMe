@@ -3,6 +3,7 @@ package com.selme.dto;
 import android.net.Uri;
 
 import java.util.Date;
+import java.util.List;
 
 public class PostDTO {
 
@@ -17,12 +18,13 @@ public class PostDTO {
     private int pickPic1;
     private int pickPic2;
     private int amountPickPic;
+    private List<String> votedUserIds;
 
     public PostDTO(){
 
     }
 
-    public PostDTO(String userName, String docId, Uri avatar, String title, String description, Uri picture1, Uri picture2, int pickPic1, int pickPic2, int amountPickPic) {
+    public PostDTO(String userName, String docId, Uri avatar, String title, String description, Uri picture1, Uri picture2, int pickPic1, int pickPic2, int amountPickPic, List<String> votedUserIds) {
         this.userName = userName;
         this.docId = docId;
         this.avatar = avatar;
@@ -33,6 +35,7 @@ public class PostDTO {
         this.pickPic1 = pickPic1;
         this.pickPic2 = pickPic2;
         this.amountPickPic = amountPickPic;
+        this.votedUserIds = votedUserIds;
         this.createdDate = createdDate;
     }
 
@@ -122,5 +125,13 @@ public class PostDTO {
 
     public void setAmountPickPic(int amountPickPic) {
         this.amountPickPic = amountPickPic;
+    }
+
+    public List<String> getVotedUserIds() {
+        return votedUserIds;
+    }
+
+    public void setVotedUserIds(List<String> votedUserIds) {
+        this.votedUserIds = votedUserIds;
     }
 }

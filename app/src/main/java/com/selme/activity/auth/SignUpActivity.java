@@ -22,8 +22,7 @@ import com.google.firebase.storage.StorageReference;
 import com.selme.R;
 import com.selme.activity.MainActivity;
 import com.selme.dao.UserDAO;
-import com.selme.interfaces.PictureLoaderCallback;
-import com.selme.modal.PictureLoader;
+import com.selme.service.PictureLoader;
 
 import java.io.IOException;
 import java.util.UUID;

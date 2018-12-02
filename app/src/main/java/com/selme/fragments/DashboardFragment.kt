@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,7 @@ import android.widget.ProgressBar
 import com.google.firebase.storage.FirebaseStorage
 import com.selme.R
 import com.selme.adapter.DashboardAdapter
-import com.selme.dto.DataMapper
+import com.selme.service.DataMapper
 import com.selme.dto.PostDTO
 import com.selme.interfaces.PostDTOCallback
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*

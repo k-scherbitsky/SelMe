@@ -21,7 +21,7 @@ import com.selme.dao.UserDAO;
 import com.selme.entity.UserEntity;
 import com.selme.interfaces.PictureLoaderCallback;
 import com.selme.interfaces.UserDAOCallback;
-import com.selme.modal.PictureLoader;
+import com.selme.service.PictureLoader;
 
 public class ProfileFragment extends Fragment implements UserDAOCallback, PictureLoaderCallback {
     private static final String TAG = "ProfileFragment";

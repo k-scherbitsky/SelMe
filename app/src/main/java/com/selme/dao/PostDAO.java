@@ -16,6 +16,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.selme.R;
 import com.selme.entity.PostEntity;
 import com.selme.interfaces.PostDAOCallback;
+import com.selme.service.PostService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,23 +48,28 @@ public class PostDAO {
         this.callback = callback;
     }
 
-    public void updateQntyPick(String docId, int numButton) {
+    public void updateQntyPick(String docId, int numButton, List<String> votesUserIds) {
         Log.d(TAG, "updateQntyPick: Update values in database");
         DocumentReference ref = db.collection(COLLECTION_PATH_POST).document(docId);
 
         ref.get().addOnSuccessListener(documentSnapshot -> {
             PostEntity postEntity = documentSnapshot.toObject(PostEntity.class);
+            Map<String, Object> map = new HashMap<>();
+
+            map.put("votedUserIds", votesUserIds);
+
             int qntyButton;
 
             switch (numButton) {
                 case 1:
                     qntyButton = postEntity != null ? postEntity.getPickPic1() : 0;
-                    ref.update("pickPic1", qntyButton + 1);
+                    map.put("pickPic1", qntyButton + 1);
                     break;
                 case 2:
                     qntyButton = postEntity != null ? postEntity.getPickPic2() : 0;
-                    ref.update("pickPic2", qntyButton + 1);
+                    map.put("pickPic2", qntyButton + 1);
             }
+            ref.update(map);
         });
     }
 
@@ -79,13 +85,14 @@ public class PostDAO {
             }
 
             if (documentSnapshot != null && documentSnapshot.exists()){
+                PostService postService = new PostService();
                 PostEntity postEntity = documentSnapshot.toObject(PostEntity.class);
                 int pickPic1 = postEntity != null ? postEntity.getPickPic1() : 0;
                 int pickPic2 = postEntity != null ? postEntity.getPickPic2() : 0;
 
                 int amount = pickPic1 + pickPic2;
-                int valueProgressBar1 = calcValue(pickPic1, amount);
-                int valueProgressBar2 = calcValue(pickPic2, amount);
+                int valueProgressBar1 = postService.calcValue(pickPic1, amount);
+                int valueProgressBar2 = postService.calcValue(pickPic2, amount);
 
                 progressBar1.setProgress(valueProgressBar1);
                 progressBar2.setProgress(valueProgressBar2);
@@ -139,11 +146,5 @@ public class PostDAO {
                 callback.onPostFailed(task.getException());
             }
         });
-    }
-
-
-    private int calcValue(int pickPic, int amountPickPic) {
-        if (amountPickPic == 0) return 0;
-        else return (pickPic * 100) / amountPickPic;
     }
 }
