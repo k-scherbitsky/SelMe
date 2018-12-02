@@ -3,6 +3,7 @@ package com.selme.activity.auth;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -83,13 +84,13 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         Log.d(TAG, "signInWithEmailAndPassword: failure");
                         progressDialog.dismiss();
+                        onLoginFailed();
                     }
                 });
     }
 
     private void onLoginFailed() {
-        Toast.makeText(getBaseContext(), R.string.toast_login_failed, Toast.LENGTH_SHORT).show();
-
+        Snackbar.make(getCurrentFocus(), R.string.toast_login_failed, Snackbar.LENGTH_LONG).show();
         loginButton.setEnabled(true);
     }
 
