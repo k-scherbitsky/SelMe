@@ -13,99 +13,110 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="25dp">
+            android:padding="3dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@color/divider"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="110dp"
-                    android:layout_marginBottom="@dimen/profile_header"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/profileImageView"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:contentDescription="@string/profile_photo"
-                        android:padding="@dimen/profile_photo_padding"
-                        tools:ignore="NestedWeights"
-                        tools:src="@tools:sample/avatars" />
-
+                    android:layout_height="match_parent"
+                    android:divider="@color/divider"
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="110dp"
+                        android:layout_marginBottom="@dimen/profile_header"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/userNameTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="10dp"
-                            android:layout_gravity="center"
+                        <ImageView
+                            android:id="@+id/profileImageView"
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:contentDescription="@string/profile_photo"
+                            android:padding="@dimen/profile_photo_padding"
+                            tools:ignore="NestedWeights"
+                            tools:src="@tools:sample/avatars" />
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            tools:text="@tools:sample/full_names"/>
+                            android:orientation="vertical">
 
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".1">
-
-                            <Button
-                                android:id="@+id/editProfileButton"
-                                android:layout_width="150dp"
-                                android:layout_height="32dp"
+                            <TextView
+                                android:id="@+id/userNameTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="10dp"
                                 android:layout_gravity="center"
-                                android:text="@string/edit_profile_btn_text"
-                                android:textSize="10sp"
-                                android:textColor="@color/colorPrimaryLight"
-                                android:background="@color/colorPrimaryDark"
-                                tools:ignore="RtlHardcoded,SmallSp" />
-                        </FrameLayout>
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                tools:text="@tools:sample/full_names" />
 
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".1">
+
+                                <Button
+                                    android:id="@+id/editProfileButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="32dp"
+                                    android:layout_gravity="center"
+                                    android:text="@string/edit_profile_btn_text"
+                                    android:textColor="@color/colorPrimaryText"
+                                    android:textSize="14sp"
+                                    android:background="@drawable/button_shape"
+                                    android:shadowColor="#A8A8A8"
+                                    android:backgroundTintMode="src_in"
+                                    android:elevation="0dp"
+                                    android:textAllCaps="false"
+                                    tools:ignore="ButtonStyle"/>
+                            </FrameLayout>
+
+                        </LinearLayout>
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/profileDescriptionTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        tools:text="@tools:sample/lorem" />
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/profileDescriptionTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    tools:text="@tools:sample/lorem"/>
             </LinearLayout>
-        </LinearLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/profile_recycler_view"
+            <View style="@style/Divider" />
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <!--<ProgressBar-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content" />-->
-        </FrameLayout>
+                android:layout_height="match_parent">
 
-    </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/profile_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
+        </LinearLayout>
+    </ScrollView>
+
 </FrameLayout>

@@ -24,17 +24,17 @@
                 android:layout_marginBottom="15dp"
                 android:orientation="vertical">
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <!--<android.support.design.widget.TextInputLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
 
-                    <EditText
-                        android:id="@+id/input_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/title_of_your_post"
-                        android:inputType="textCapWords" />
-                </android.support.design.widget.TextInputLayout>
+                    <!--<EditText-->
+                        <!--android:id="@+id/input_title"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:hint="@string/title_of_your_post"-->
+                        <!--android:inputType="textCapWords" />-->
+                <!--</android.support.design.widget.TextInputLayout>-->
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -67,8 +67,10 @@
                 <ImageView
                     android:id="@+id/input_photo1"
                     android:layout_width="match_parent"
-                    android:layout_height="125dp"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="300dp"
                     android:contentDescription="@string/picture_1"
+                    android:adjustViewBounds="true"
                     tools:src="@tools:sample/avatars" />
 
                 <Button
@@ -77,11 +79,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/button_margin_horizontal"
                     android:layout_marginTop="10dp"
-                    android:padding="12dp"
                     android:text="@string/upload_the_first_picture"
-                    android:textColor="@color/colorPrimaryLight"
-                    android:background="@color/colorPrimaryDark"
-                    tools:targetApi="o" />
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp"
+                    android:background="@drawable/button_shape"
+                    android:shadowColor="#A8A8A8"
+                    android:backgroundTintMode="src_in"
+                    android:elevation="0dp"
+                    android:textAllCaps="false"
+                    tools:ignore="ButtonStyle" />
 
             </LinearLayout>
 
@@ -102,8 +108,10 @@
                 <ImageView
                     android:id="@+id/input_photo2"
                     android:layout_width="match_parent"
-                    android:layout_height="125dp"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="300dp"
                     android:contentDescription="@string/picture_2"
+                    android:adjustViewBounds="true"
                     tools:src="@tools:sample/avatars" />
 
                 <Button
@@ -112,11 +120,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/button_margin_horizontal"
                     android:layout_marginTop="10dp"
-                    android:padding="12dp"
                     android:text="@string/upload_the_second_picture"
-                    android:textColor="@color/colorPrimaryLight"
-                    android:background="@color/colorPrimaryDark"
-                    tools:targetApi="o" />
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14sp"
+                    android:background="@drawable/button_shape"
+                    android:shadowColor="#A8A8A8"
+                    android:backgroundTintMode="src_in"
+                    android:elevation="0dp"
+                    android:textAllCaps="false"
+                    tools:ignore="ButtonStyle" />
             </LinearLayout>
 
 
@@ -126,11 +138,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/button_margin_horizontal"
                 android:layout_marginBottom="10dp"
-                android:padding="12dp"
                 android:text="@string/share_new_post"
-                android:textColor="@color/colorPrimaryLight"
-                android:background="@color/colorPrimaryDark"
-                tools:targetApi="o" />
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="14sp"
+                android:background="@drawable/button_shape"
+                android:shadowColor="#A8A8A8"
+                android:backgroundTintMode="src_in"
+                android:elevation="0dp"
+                android:textAllCaps="false"
+                tools:ignore="ButtonStyle" />
         </LinearLayout>
     </ScrollView>
 

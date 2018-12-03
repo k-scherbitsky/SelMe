@@ -3,7 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="profile_header">5dp</dimen>
-    <dimen name="profile_photo_padding">8dp</dimen>
+    <dimen name="profile_photo_padding">10dp</dimen>
     <dimen name="button_margin_horizontal">40dp</dimen>
     <dimen name="button_margin_vertical">24dp</dimen>
 </resources>
