@@ -5,6 +5,7 @@ import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @IgnoreExtraProperties
@@ -20,12 +21,13 @@ public class PostEntity{
     private int pickPic1;
     private int pickPic2;
     private List<String> votedUserIds;
+    private Map<String, String> comments;
 
     public PostEntity(){
 
     }
 
-    public PostEntity(String title, String description, String photo1, String photo2, String docId, int pickPic1, int pickPic2, List<String> votedUserIds){
+    public PostEntity(String title, String description, String photo1, String photo2, String docId, int pickPic1, int pickPic2, List<String> votedUserIds, Map<String, String> comments){
         this.title = title;
         this.description = description;
         this.photo1 = photo1;
@@ -34,6 +36,7 @@ public class PostEntity{
         this.pickPic1 = pickPic1;
         this.pickPic2 = pickPic2;
         this.votedUserIds = votedUserIds;
+        this.comments = comments;
     }
 
 
@@ -118,25 +121,35 @@ public class PostEntity{
         this.votedUserIds = votedUserIds;
     }
 
+    public Map<String, String> getComments() {
+        return comments;
+    }
+
+    public void setComments(Map<String, String> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PostEntity that = (PostEntity) o;
-        return Objects.equals(title, that.title) &&
+        return pickPic1 == that.pickPic1 &&
+                pickPic2 == that.pickPic2 &&
+                Objects.equals(title, that.title) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(createdDate, that.createdDate) &&
                 Objects.equals(photo1, that.photo1) &&
                 Objects.equals(photo2, that.photo2) &&
+                Objects.equals(userId, that.userId) &&
                 Objects.equals(docId, that.docId) &&
-                Objects.equals(pickPic2, that.pickPic2) &&
-                Objects.equals(pickPic1, that.pickPic1) &&
-                Objects.equals(userId, that.userId);
+                Objects.equals(votedUserIds, that.votedUserIds) &&
+                Objects.equals(comments, that.comments);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(title, description, createdDate, photo1, photo2, userId, docId, pickPic2, pickPic1);
+        return Objects.hash(title, description, createdDate, photo1, photo2, userId, docId, pickPic1, pickPic2, votedUserIds, comments);
     }
 }

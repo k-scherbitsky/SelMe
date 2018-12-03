@@ -17,11 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name" />
-
         <activity
             android:name=".activity.auth.LoginActivity"
             android:label="@string/app_name"
@@ -32,19 +30,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.auth.SignUpActivity"
             android:label="@string/title_activity_signup"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-
-        </activity>
-
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
         <activity
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:name=".activity.auth.ForgotPasswordActivity">
-
-        </activity>
+            android:name=".activity.auth.ForgotPasswordActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+        <activity android:name=".activity.PostCardActivity"></activity>
     </application>
 
 </manifest>

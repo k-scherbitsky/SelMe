@@ -1,6 +1,7 @@
 package com.selme.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.google.firebase.auth.FirebaseAuth;
 import com.selme.R;
+import com.selme.activity.PostCardActivity;
 import com.selme.dao.PostDAO;
 import com.selme.dto.PostDTO;
 import com.selme.service.PostService;
@@ -69,6 +71,13 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
 
         Button thisOneButton2 = dashboardViewHolder.thisOneButton2;
         thisOneButton2.setOnClickListener(view1 -> addProgressBarValue(dashboardViewHolder, BUTTON_2));
+
+        dashboardViewHolder.itemView.setOnClickListener(view -> {
+            int adapterPosition = dashboardViewHolder.getAdapterPosition();
+            Intent intent = new Intent(dashboardViewHolder.itemView.getContext(), PostCardActivity.class);
+            intent.putExtra("PostCard", postDtoList.get(adapterPosition));
+            dashboardViewHolder.itemView.getContext().startActivity(intent);
+        });
 
         dashboardViewHolder.bind(postDtoList.get(i));
     }

@@ -6,9 +6,11 @@ import android.util.Log;
 import com.google.firebase.storage.StorageReference;
 import com.selme.dao.PostDAO;
 import com.selme.dao.UserDAO;
+import com.selme.dto.CommentsDTO;
 import com.selme.dto.PostDTO;
 import com.selme.entity.PostEntity;
 import com.selme.entity.UserEntity;
+import com.selme.interfaces.CommentsDTOCallback;
 import com.selme.interfaces.PictureLoaderCallback;
 import com.selme.interfaces.PostDAOCallback;
 import com.selme.interfaces.PostDTOCallback;
@@ -16,27 +18,35 @@ import com.selme.interfaces.UserDAOCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoaderCallback {
 
     private static final String TAG = "DataMapper";
-    private static final int REQUEST_AVATAR = 100;
+    private static final int REQUEST_AVATAR_POST = 100;
     private static final int REQUEST_PICTURE_1 = 200;
     private static final int REQUEST_PICTURE_2 = 300;
-    private static final int REQUEST_USERNAME = 400;
+    private static final int REQUEST_USERNAME_POST = 400;
+    private static final int REQUEST_USERNAME_COMMENT = 500;
+    private static final int REQUEST_AVATAR_COMMENT = 600;
 
     private StorageReference storageRef;
-    private PostDTOCallback callback;
-    private List<PostDTO> dtoList;
+    private PostDTOCallback postDTOCallback;
+    private CommentsDTOCallback commentsDTOCallback;
+    private List<PostDTO> postDTOList;
+    private List<CommentsDTO> commentsDTOList;
     private UserDAO userDAO;
-    private int listSize = -1;
+    private int postListSize = -1;
+    private int commentsListSize = -1;
+
+    public DataMapper(){}
 
     public DataMapper(StorageReference storageRef) {
         this.storageRef = storageRef;
     }
 
     public void toPostDto(PostDTOCallback callback, boolean isProfile) {
-        this.callback = callback;
+        this.postDTOCallback = callback;
 
         userDAO = new UserDAO(this);
 
@@ -44,16 +54,34 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
         postDAO.getPost(isProfile);
     }
 
+    public void toCommentsDto(Map<String, String> commentsMap, CommentsDTOCallback callback) {
+        this.commentsDTOCallback = callback;
+        userDAO = new UserDAO(this);
+        commentsDTOList = new ArrayList<>();
+        commentsListSize = commentsMap.size();
+
+        int i = 0;
+        for (Map.Entry entry : commentsMap.entrySet()) {
+            CommentsDTO buf = new CommentsDTO();
+            buf.setComment(entry.getValue().toString());
+
+            getUser(entry.getKey().toString(), REQUEST_USERNAME_COMMENT, i);
+
+            commentsDTOList.add(buf);
+            i++;
+        }
+    }
+
     @Override
     public void onPostLoaded(List<PostEntity> postEntityList) {
-        dtoList = new ArrayList<>();
+        postDTOList = new ArrayList<>();
 
         if (postEntityList != null) {
 
-            listSize = postEntityList.size();
+            postListSize = postEntityList.size();
 
             for (int i = 0; i < postEntityList.size(); i++) {
-                getUser(postEntityList.get(i).getUserId(), i); // получение аватара, имени и фамилии по userId
+                getUser(postEntityList.get(i).getUserId(), REQUEST_USERNAME_POST, i); // получение аватара, имени и фамилии по userId
 
                 getPicture(postEntityList.get(i).getPhoto1(), REQUEST_PICTURE_1, i);
                 getPicture(postEntityList.get(i).getPhoto2(), REQUEST_PICTURE_2, i);
@@ -74,44 +102,57 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
                 dto.setAmountPickPic(amountPickPic);
 
                 dto.setVotedUserIds(postEntityList.get(i).getVotedUserIds());
+                dto.setComments(postEntityList.get(i).getComments());
 
-                dtoList.add(dto);
+                postDTOList.add(dto);
             }
         }
     }
 
     @Override
     public void onUserLoaded(UserEntity user, int requestCode, int pos) {
+        String userNameText = user.getFirstName() + " " +user.getLastName();
+        String fileName = user.getProfilePhoto();
 
-        if(requestCode == REQUEST_USERNAME){
-            String userNameText = user.getFirstName() + " " +user.getLastName();
-            String fileName = user.getProfilePhoto();
-
-            dtoList.get(pos).setUserName(userNameText);
-            getProfilePhoto(fileName, pos);
+        switch (requestCode){
+            case REQUEST_USERNAME_POST:{
+                postDTOList.get(pos).setUserName(userNameText);
+                getProfilePhoto(fileName, REQUEST_AVATAR_POST, pos);
+                doPostCallback(postListSize, postDTOList, postDTOCallback); // проверка можно ли делать postDTOCallback. Все ли данные уже получены из бд.
+                break;
+            }
+            case REQUEST_USERNAME_COMMENT:{
+                commentsDTOList.get(pos).setUserName(userNameText);
+                getProfilePhoto(fileName, REQUEST_AVATAR_COMMENT, pos);
+                doCommentCallback(commentsListSize, commentsDTOList, commentsDTOCallback);
+                break;
+            }
         }
-
-        doCallback(listSize, dtoList, callback); // проверка можно ли делать callback. Все ли данные уже получены из бд.
     }
 
     @Override
     public void onPictureDownloaded(Uri uri, int requestCode, int pos) {
 
         switch (requestCode) {
-            case REQUEST_AVATAR:
-                dtoList.get(pos).setAvatar(uri);
+            case REQUEST_AVATAR_POST:
+                postDTOList.get(pos).setAvatar(uri);
+                doPostCallback(postListSize, postDTOList, postDTOCallback); // проверка можно ли делать postDTOCallback. Все ли данные уже получены из бд.
                 break;
             case REQUEST_PICTURE_1:
-                dtoList.get(pos).setPicture1(uri);
+                postDTOList.get(pos).setPicture1(uri);
+                doPostCallback(postListSize, postDTOList, postDTOCallback); // проверка можно ли делать postDTOCallback. Все ли данные уже получены из бд.
                 break;
             case REQUEST_PICTURE_2:
-                dtoList.get(pos).setPicture2(uri);
+                postDTOList.get(pos).setPicture2(uri);
+                doPostCallback(postListSize, postDTOList, postDTOCallback); // проверка можно ли делать postDTOCallback. Все ли данные уже получены из бд.
                 break;
+            case REQUEST_AVATAR_COMMENT:
+                commentsDTOList.get(pos).setAvatar(uri);
+                doCommentCallback(commentsListSize, commentsDTOList, commentsDTOCallback);
             default:
                 break;
         }
 
-        doCallback(listSize, dtoList, callback); // проверка можно ли делать callback. Все ли данные уже получены из бд.
     }
 
     @Override
@@ -125,13 +166,13 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
         Log.w(TAG, "onUserLoadFailed: data about user didn't get. Check log", error);
     }
 
-    private void getProfilePhoto(String fileName, int pos) {
+    private void getProfilePhoto(String fileName, int requestCode, int pos) {
         Log.d(TAG, "getProfilePhoto: get photo from profile photo");
         String filePath = "profileImage/" + fileName;
         StorageReference riversRef = storageRef.child(filePath);
 
         PictureLoader pictureLoader = new PictureLoader(riversRef, this);
-        pictureLoader.getPhotoUri(riversRef, REQUEST_AVATAR, pos);
+        pictureLoader.getPhotoUri(riversRef, requestCode, pos);
     }
 
     private void getPicture(String fileName, int requestCode, int pos) {
@@ -143,17 +184,25 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
         pictureLoader.getPhotoUri(riversRef, requestCode, pos);
     }
 
-    private void getUser(String userId, int pos) {
-        userDAO.getUser(userId, REQUEST_USERNAME, pos);
+    private void getUser(String userId, int requestCode, int pos) {
+        userDAO.getUser(userId, requestCode, pos);
     }
 
-    private void doCallback(int listSize, List<PostDTO> dtoList, PostDTOCallback callback) {
+    private void doPostCallback(int listSize, List<PostDTO> dtoList, PostDTOCallback callback) {
         int checkPos = listSize - 1;
         if(dtoList.get(checkPos).getAvatar() != null
                 && dtoList.get(checkPos).getPicture1() != null
                 && dtoList.get(checkPos).getPicture2() != null
                 && dtoList.get(checkPos).getUserName() != null) {
             callback.toDto(dtoList);
+        }
+    }
+
+    private void doCommentCallback(int listSize, List<CommentsDTO> dtoList, CommentsDTOCallback callback) {
+        int checkPos = listSize - 1;
+        if(dtoList.get(checkPos).getAvatar() != null
+                && dtoList.get(checkPos).getUserName() != null) {
+            callback.toCommentsDot(dtoList);
         }
     }
 }
