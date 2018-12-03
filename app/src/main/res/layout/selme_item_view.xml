@@ -37,6 +37,7 @@
                     android:layout_gravity="start"
                     android:layout_marginLeft="12dp"
                     android:gravity="fill_vertical"
+                    android:textStyle="bold"
                     tools:text="@tools:sample/full_names" />
 
             </LinearLayout>

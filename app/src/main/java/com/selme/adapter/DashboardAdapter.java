@@ -72,12 +72,19 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
         Button thisOneButton2 = dashboardViewHolder.thisOneButton2;
         thisOneButton2.setOnClickListener(view1 -> addProgressBarValue(dashboardViewHolder, BUTTON_2));
 
-        dashboardViewHolder.itemView.setOnClickListener(view -> {
+        dashboardViewHolder.commentView.setOnClickListener(view -> {
             int adapterPosition = dashboardViewHolder.getAdapterPosition();
             Intent intent = new Intent(dashboardViewHolder.itemView.getContext(), PostCardActivity.class);
             intent.putExtra("PostCard", postDtoList.get(adapterPosition));
             dashboardViewHolder.itemView.getContext().startActivity(intent);
         });
+
+//        dashboardViewHolder.itemView.setOnClickListener(view -> {
+//            int adapterPosition = dashboardViewHolder.getAdapterPosition();
+//            Intent intent = new Intent(dashboardViewHolder.itemView.getContext(), PostCardActivity.class);
+//            intent.putExtra("PostCard", postDtoList.get(adapterPosition));
+//            dashboardViewHolder.itemView.getContext().startActivity(intent);
+//        });
 
         dashboardViewHolder.bind(postDtoList.get(i));
     }
@@ -131,6 +138,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
         private ProgressBar progressBar2;
         private ProgressBar progressBarPic1;
         private ProgressBar progressBarPic2;
+        private ImageView commentView;
+        private ImageView likeView;
 
         DashboardViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -148,6 +157,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             progressBar2 = itemView.findViewById(R.id.progressBar2);
             progressBarPic1 = itemView.findViewById(R.id.progressBar_pic1);
             progressBarPic2 = itemView.findViewById(R.id.progressBar_pic2);
+            commentView = itemView.findViewById(R.id.comment_view);
+            likeView = itemView.findViewById(R.id.like_view);
 
         }
 

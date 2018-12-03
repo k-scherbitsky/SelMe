@@ -35,14 +35,9 @@ import java.util.List;
 public class PostCardActivity extends AppCompatActivity implements CommentsDTOCallback {
 
     private PostDTO postDTO;
-    private String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private CommentsAdapter commentsAdapter;
 
     private ProgressBar progressBarPostCard;
-    private ProgressBar progressBar1;
-    private ProgressBar progressBar2;
-    private Button thisOneButton1;
-    private Button thisOneButton2;
     private RecyclerView recyclerView;
 
     @Override
@@ -51,15 +46,10 @@ public class PostCardActivity extends AppCompatActivity implements CommentsDTOCa
         setContentView(R.layout.activity_post_card);
 
         progressBarPostCard = findViewById(R.id.post_card_progress_bar);
-        progressBar1 = findViewById(R.id.post_card_progressBar1);
-        progressBar2 = findViewById(R.id.post_card_progressBar2);
-        thisOneButton1 = findViewById(R.id.post_card_thisOneButton1);
-        thisOneButton2 = findViewById(R.id.post_card_thisOneButton2);
         recyclerView = findViewById(R.id.post_card_recycler_view);
 
         postDTO = getIntent().getParcelableExtra("PostCard");
         if(postDTO != null) {
-            initPostCard(postDTO);
             StorageReference storageRef = FirebaseStorage.getInstance().getReference();
             DataMapper dataMapper = new DataMapper(storageRef);
             dataMapper.toCommentsDto(postDTO.getComments(), this);
@@ -71,47 +61,8 @@ public class PostCardActivity extends AppCompatActivity implements CommentsDTOCa
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         commentsAdapter = new CommentsAdapter();
         recyclerView.setAdapter(commentsAdapter);
-        DividerItemDecoration divider = new DividerItemDecoration(getBaseContext(), DividerItemDecoration.VERTICAL);
+        DividerItemDecoration divider = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(divider);
-    }
-
-    private void initPostCard(PostDTO postDTO) {
-        ImageView avatar = findViewById(R.id.post_card_avatar);
-        Glide.with(getBaseContext())
-                .load(postDTO.getAvatar())
-                .apply(RequestOptions.circleCropTransform())
-                .into(avatar);
-
-        TextView userName = findViewById(R.id.post_card_username);
-        userName.setText(postDTO.getUserName());
-
-        TextView title = findViewById(R.id.post_card_title_text_view);
-        title.setText(postDTO.getTitle());
-
-        TextView description = findViewById(R.id.post_card_description_text_view);
-        description.setText(postDTO.getDescription());
-
-        ImageView picture1 = findViewById(R.id.post_card_image1);
-        Glide.with(getBaseContext())
-                .load(postDTO.getPicture1())
-                .into(picture1);
-
-        ImageView picture2 = findViewById(R.id.post_card_image2);
-        Glide.with(getBaseContext())
-                .load(postDTO.getPicture2())
-                .into(picture2);
-
-        List<String> votedUserIds = postDTO.getVotedUserIds();
-        PostService service = new PostService();
-        int pickPic1 = postDTO.getPickPic1();
-        int pickPic2 = postDTO.getPickPic2();
-        int amountPick = pickPic1 + pickPic2;
-        if(votedUserIds.contains(currentUserId)){
-            progressBar1.setProgress(service.calcValue(pickPic1, amountPick));
-            progressBar2.setProgress(service.calcValue(pickPic2, amountPick));
-        }
-
-//        progressBarPostCard.setVisibility(View.GONE);
     }
 
     @Override

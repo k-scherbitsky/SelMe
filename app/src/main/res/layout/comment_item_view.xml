@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="10dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,8 +15,8 @@
 
         <ImageView
             android:id="@+id/comment_avatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             tools:srcCompat="@tools:sample/avatars"
             android:contentDescription="@string/profile_photo" />
 
@@ -24,8 +25,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:gravity="fill_vertical"
+            android:textStyle="bold"
             tools:text="@tools:sample/full_names" />
     </LinearLayout>
 
@@ -33,7 +35,7 @@
         android:id="@+id/comment_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_gravity="center"
         android:gravity="start"
         tools:text="@tools:sample/lorem" />

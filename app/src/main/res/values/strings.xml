@@ -64,4 +64,5 @@
     <string name="sending_email">Sending email...</string>
     <string name="comments">Comments</string>
     <string name="like">Like</string>
+    <string name="add_comment">Add a comment</string>
 </resources>
