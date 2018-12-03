@@ -129,7 +129,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             avatarImageView = itemView.findViewById(R.id.post_avatar);
             userName = itemView.findViewById(R.id.post_username);
 
-            title = itemView.findViewById(R.id.titlePostTextView);
+//            title = itemView.findViewById(R.id.titlePostTextView);
             description = itemView.findViewById(R.id.descriptionPostTextView);
             picture1 = itemView.findViewById(R.id.postImage1);
             picture2 = itemView.findViewById(R.id.postImage2);
@@ -146,9 +146,9 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             if (postDTO.getUserName() != null) {
                 userName.setText(postDTO.getUserName());
             }
-            if (postDTO.getTitle() != null) {
-                title.setText(postDTO.getTitle());
-            }
+//            if (postDTO.getTitle() != null) {
+//                title.setText(postDTO.getTitle());
+//            }
             if (postDTO.getDescription() != null) {
                 description.setText(postDTO.getDescription());
             }

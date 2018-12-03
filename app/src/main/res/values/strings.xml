@@ -62,4 +62,6 @@
     <string name="enter_your_email_which_you_entered_when_registering">Enter your email which you entered when registering. We will send you a password recovery email.</string>
     <string name="forgot_my_password_reset">Forgot my password. Reset</string>
     <string name="sending_email">Sending email...</string>
+    <string name="comments">Comments</string>
+    <string name="like">Like</string>
 </resources>
