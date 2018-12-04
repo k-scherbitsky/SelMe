@@ -36,7 +36,6 @@ public class CreatePostFragment extends Fragment {
 
     private TextView errorTextPic1;
     private TextView errorTextPic2;
-//    private EditText title;
     private EditText description;
     private ImageView picture1;
     private ImageView picture2;
@@ -67,7 +66,6 @@ public class CreatePostFragment extends Fragment {
 
         errorTextPic1 = view.findViewById(R.id.error_text_picture_1);
         errorTextPic2 = view.findViewById(R.id.error_text_picture_2);
-//        title = view.findViewById(R.id.input_title);
         description = view.findViewById(R.id.input_description);
         picture1 = view.findViewById(R.id.input_photo1);
         picture2 = view.findViewById(R.id.input_photo2);
@@ -138,19 +136,17 @@ public class CreatePostFragment extends Fragment {
         progressDialog.setMessage(getString(R.string.posting_progress_dialog));
         progressDialog.show();
 
-//        String titleText = title.getText().toString();
         String descText = description.getText().toString();
         String namePic1 = getUniqName(uriPicture1);
         String namePic2 = getUniqName(uriPicture2);
 
         PostDAO postDAO = new PostDAO(getContext());
-        postDAO.addNewPost(progressDialog, "", descText, mAuth.getCurrentUser().getUid(), namePic1, namePic2);
+        postDAO.addNewPost(progressDialog, descText, mAuth.getCurrentUser().getUid(), namePic1, namePic2);
 
         clearForm();
     }
 
     private void clearForm() {
-//        title.getText().clear();
         description.getText().clear();
         picture1.setImageResource(0);
         picture2.setImageResource(0);
@@ -166,17 +162,9 @@ public class CreatePostFragment extends Fragment {
     private boolean validate() {
         boolean validate = true;
 
-//        String titleText = title.getText().toString();
         String desc = description.getText().toString();
         Drawable pic1 = picture1.getDrawable();
         Drawable pic2 = picture1.getDrawable();
-
-//        if(titleText.isEmpty()){
-//            title.setError(getString(R.string.error_input_title_post));
-//            validate = false;
-//        } else {
-//            title.setError(null);
-//        }
 
         if (desc.isEmpty()){
             description.setError(getString(R.string.error_input_desc_post));

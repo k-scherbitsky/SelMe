@@ -88,7 +88,6 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
 
                 PostDTO dto = new PostDTO();
 
-                dto.setTitle(postEntityList.get(i).getTitle());
                 dto.setDescription(postEntityList.get(i).getDescription());
                 dto.setDocId(postEntityList.get(i).getDocId());
                 dto.setCreatedDate(postEntityList.get(i).getCreatedDate());

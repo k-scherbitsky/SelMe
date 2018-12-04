@@ -11,7 +11,6 @@ import java.util.Objects;
 @IgnoreExtraProperties
 public class PostEntity{
 
-    private String title;
     private String description;
     private @ServerTimestamp Date createdDate;
     private String photo1;
@@ -27,8 +26,7 @@ public class PostEntity{
 
     }
 
-    public PostEntity(String title, String description, String photo1, String photo2, String docId, int pickPic1, int pickPic2, List<String> votedUserIds, Map<String, String> comments){
-        this.title = title;
+    public PostEntity(String description, String photo1, String photo2, String docId, int pickPic1, int pickPic2, List<String> votedUserIds, Map<String, String> comments){
         this.description = description;
         this.photo1 = photo1;
         this.photo2 = photo2;
@@ -37,16 +35,6 @@ public class PostEntity{
         this.pickPic2 = pickPic2;
         this.votedUserIds = votedUserIds;
         this.comments = comments;
-    }
-
-
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDescription() {
@@ -136,7 +124,6 @@ public class PostEntity{
         PostEntity that = (PostEntity) o;
         return pickPic1 == that.pickPic1 &&
                 pickPic2 == that.pickPic2 &&
-                Objects.equals(title, that.title) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(createdDate, that.createdDate) &&
                 Objects.equals(photo1, that.photo1) &&
@@ -150,6 +137,6 @@ public class PostEntity{
     @Override
     public int hashCode() {
 
-        return Objects.hash(title, description, createdDate, photo1, photo2, userId, docId, pickPic1, pickPic2, votedUserIds, comments);
+        return Objects.hash(description, createdDate, photo1, photo2, userId, docId, pickPic1, pickPic2, votedUserIds, comments);
     }
 }

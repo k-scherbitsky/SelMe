@@ -105,12 +105,11 @@ public class PostDAO {
         });
     }
 
-    public void addNewPost(ProgressDialog progressDialog, String title, String description, String userId, String nameOfPic1, String nameOfPic2) {
+    public void addNewPost(ProgressDialog progressDialog, String description, String userId, String nameOfPic1, String nameOfPic2) {
         Log.d(TAG, "addNewPost");
 
         PostEntity postEntity = new PostEntity();
 
-        postEntity.setTitle(title);
         postEntity.setDescription(description);
         postEntity.setPhoto1(nameOfPic1);
         postEntity.setPhoto2(nameOfPic2);
@@ -118,6 +117,8 @@ public class PostDAO {
         postEntity.setDocId(docRef.getId());
         postEntity.setPickPic1(0);
         postEntity.setPickPic2(0);
+        postEntity.setComments(new HashMap<>());
+        postEntity.setVotedUserIds(new ArrayList<>());
 
         docRef.set(postEntity).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
