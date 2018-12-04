@@ -24,7 +24,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.google.firebase.auth.FirebaseAuth;
 import com.selme.R;
-import com.selme.activity.PostCardActivity;
+import com.selme.activity.CommentsActivity;
 import com.selme.dao.PostDAO;
 import com.selme.dto.PostDTO;
 import com.selme.service.PostService;
@@ -74,14 +74,14 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
 
         dashboardViewHolder.commentView.setOnClickListener(view -> {
             int adapterPosition = dashboardViewHolder.getAdapterPosition();
-            Intent intent = new Intent(dashboardViewHolder.itemView.getContext(), PostCardActivity.class);
+            Intent intent = new Intent(dashboardViewHolder.itemView.getContext(), CommentsActivity.class);
             intent.putExtra("PostCard", postDtoList.get(adapterPosition));
             dashboardViewHolder.itemView.getContext().startActivity(intent);
         });
 
 //        dashboardViewHolder.itemView.setOnClickListener(view -> {
 //            int adapterPosition = dashboardViewHolder.getAdapterPosition();
-//            Intent intent = new Intent(dashboardViewHolder.itemView.getContext(), PostCardActivity.class);
+//            Intent intent = new Intent(dashboardViewHolder.itemView.getContext(), CommentsActivity.class);
 //            intent.putExtra("PostCard", postDtoList.get(adapterPosition));
 //            dashboardViewHolder.itemView.getContext().startActivity(intent);
 //        });

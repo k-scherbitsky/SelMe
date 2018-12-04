@@ -56,7 +56,6 @@ public class PostDAO {
         ref.get().addOnSuccessListener(documentSnapshot -> {
             PostEntity postEntity = documentSnapshot.toObject(PostEntity.class);
             Map<String, Object> map = new HashMap<>();
-
             map.put("votedUserIds", votesUserIds);
 
             int qntyButton;
@@ -80,7 +79,6 @@ public class PostDAO {
                 .document(docId);
 
         docRef.addSnapshotListener((documentSnapshot, e) -> {
-
             if (e != null){
                 Log.w(TAG, "addProgressBarValue: ", e);
             }
@@ -103,6 +101,13 @@ public class PostDAO {
                 Log.d(TAG, "addProgressBarValue: ");
             }
         });
+    }
+
+    public void addNewComment(String docId, Map<String, String> commentsMap){
+        Log.d(TAG, "addNewComment: Add new comment");
+        DocumentReference ref = db.collection(COLLECTION_PATH_POST).document(docId);
+
+        ref.update("comments", commentsMap);
     }
 
     public void addNewPost(ProgressDialog progressDialog, String description, String userId, String nameOfPic1, String nameOfPic2) {
