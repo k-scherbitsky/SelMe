@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -163,9 +164,6 @@ public class CreatePostFragment extends Fragment {
         boolean validate = true;
 
         String desc = description.getText().toString();
-        Drawable pic1 = picture1.getDrawable();
-        Drawable pic2 = picture1.getDrawable();
-
         if (desc.isEmpty()){
             description.setError(getString(R.string.error_input_desc_post));
             validate = false;
@@ -173,20 +171,21 @@ public class CreatePostFragment extends Fragment {
             description.setError(null);
         }
 
-        if(pic1 == null){
+        if(uriPicture1 == null){
+            Snackbar.make(getView(), R.string.upload_picture_error, Snackbar.LENGTH_SHORT).show();
             errorTextPic1.setVisibility(View.VISIBLE);
             validate = false;
         } else {
             errorTextPic1.setVisibility(View.INVISIBLE);
         }
 
-        if(pic2 == null){
+        if(uriPicture2 == null){
+            Snackbar.make(getView(), R.string.upload_picture_error, Snackbar.LENGTH_SHORT).show();
             errorTextPic2.setVisibility(View.VISIBLE);
             validate = false;
         } else {
             errorTextPic2.setVisibility(View.INVISIBLE);
         }
-
 
         return validate;
     }
