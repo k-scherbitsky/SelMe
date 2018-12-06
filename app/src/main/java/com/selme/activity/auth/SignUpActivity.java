@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
@@ -44,6 +43,8 @@ public class SignUpActivity extends AppCompatActivity {
     private Button signUpButton;
     private TextView loginLink;
 
+    private PictureLoader pictureUploader;
+
     private ImageView profileImage;
     private Bitmap currentPhoto;
     private Uri photoUri;
@@ -59,6 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        pictureUploader = new PictureLoader(mStorageRef,  getBaseContext());
 
         profileImage = findViewById(R.id.profileImageSignUp);
         firstNameText = findViewById(R.id.input_name);
@@ -113,12 +115,8 @@ public class SignUpActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             photoUri = data.getData();
             if (photoUri != null) {
-                try {
-                    currentPhoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
-                    profileImage.setImageBitmap(currentPhoto);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                currentPhoto = pictureUploader.getBitmapImage(currentPhoto, resultCode, data);
+                profileImage.setImageBitmap(currentPhoto);
             }
         }
     }
@@ -145,9 +143,7 @@ public class SignUpActivity extends AppCompatActivity {
         String lastName = lastNameText.getText().toString();
         String description = aboutMeText.getText().toString();
 
-        PictureLoader pictureUploader = new PictureLoader(mStorageRef, this);
-        pictureUploader.uploadPhoto(photoUri, TAG, "profileImage", avatarFileName);
-
+        pictureUploader.uploadPhotoFromDataInMemory(currentPhoto, "profileImage", avatarFileName);
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {

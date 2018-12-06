@@ -41,6 +41,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-storage:4.1.0'
     implementation 'com.google.firebase:firebase-auth:16.0.5'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'id.zelory:compressor:2.1.0'
 }
 repositories {
     mavenCentral()

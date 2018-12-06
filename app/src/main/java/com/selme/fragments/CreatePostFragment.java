@@ -3,7 +3,6 @@ package com.selme.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -31,6 +30,7 @@ public class CreatePostFragment extends Fragment {
     private static final String TAG = "CreatePostFragment";
     private static final int REQUSET_CODE_PICTURE_1 = 100;
     private static final int REQUSET_CODE_PICTURE_2 = 200;
+    private static final int PERMISSION_WRITE_STORAGE = 21;
 
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
@@ -53,43 +53,6 @@ public class CreatePostFragment extends Fragment {
 
     public CreatePostFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        View view = getView();
-
-        mAuth = FirebaseAuth.getInstance();
-        mStorageRef = FirebaseStorage.getInstance().getReference();
-
-        pictureUploader = new PictureLoader(mStorageRef, getActivity());
-
-        errorTextPic1 = view.findViewById(R.id.error_text_picture_1);
-        errorTextPic2 = view.findViewById(R.id.error_text_picture_2);
-        description = view.findViewById(R.id.input_description);
-        picture1 = view.findViewById(R.id.input_photo1);
-        picture2 = view.findViewById(R.id.input_photo2);
-        uploadPicture1 = view.findViewById(R.id.upload_photo_1);
-        uploadPicture2 = view.findViewById(R.id.upload_photo_2);
-        share = view.findViewById(R.id.share_new_post);
-
-        uploadPicture1.setOnClickListener(view1 -> {
-            Intent photoIntent = new Intent(Intent.ACTION_PICK);
-            photoIntent.setType("image/*");
-            startActivityForResult(photoIntent, REQUSET_CODE_PICTURE_1);
-        });
-
-        uploadPicture2.setOnClickListener(view1 -> {
-            Intent photoIntent = new Intent(Intent.ACTION_PICK);
-            photoIntent.setType("image/*");
-            startActivityForResult(photoIntent, REQUSET_CODE_PICTURE_2);
-        });
-
-        share.setOnClickListener(view1 -> {
-            createNewPost();
-        });
-
     }
 
     @Override
@@ -118,8 +81,39 @@ public class CreatePostFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_post, container, false);
+        View view = inflater.inflate(R.layout.fragment_create_post, container, false);
+
+        mAuth = FirebaseAuth.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
+        pictureUploader = new PictureLoader(mStorageRef, view.getContext());
+
+        errorTextPic1 = view.findViewById(R.id.error_text_picture_1);
+        errorTextPic2 = view.findViewById(R.id.error_text_picture_2);
+        description = view.findViewById(R.id.input_description);
+        picture1 = view.findViewById(R.id.input_photo1);
+        picture2 = view.findViewById(R.id.input_photo2);
+        uploadPicture1 = view.findViewById(R.id.upload_photo_1);
+        uploadPicture2 = view.findViewById(R.id.upload_photo_2);
+        share = view.findViewById(R.id.share_new_post);
+
+        uploadPicture1.setOnClickListener(view1 -> {
+            Intent photoIntent = new Intent(Intent.ACTION_PICK);
+            photoIntent.setType("image/*");
+            startActivityForResult(photoIntent, REQUSET_CODE_PICTURE_1);
+        });
+
+        uploadPicture2.setOnClickListener(view1 -> {
+            Intent photoIntent = new Intent(Intent.ACTION_PICK);
+            photoIntent.setType("image/*");
+            startActivityForResult(photoIntent, REQUSET_CODE_PICTURE_2);
+        });
+
+        share.setOnClickListener(view1 -> {
+            createNewPost();
+        });
+
+        return view;
     }
 
     private void createNewPost() {
@@ -138,8 +132,8 @@ public class CreatePostFragment extends Fragment {
         progressDialog.show();
 
         String descText = description.getText().toString();
-        String namePic1 = getUniqName(uriPicture1);
-        String namePic2 = getUniqName(uriPicture2);
+        String namePic1 = getUniqName(bitmapPicture1);
+        String namePic2 = getUniqName(bitmapPicture2);
 
         PostDAO postDAO = new PostDAO(getContext());
         postDAO.addNewPost(progressDialog, descText, mAuth.getCurrentUser().getUid(), namePic1, namePic2);
@@ -153,9 +147,10 @@ public class CreatePostFragment extends Fragment {
         picture2.setImageResource(0);
     }
 
-    private String getUniqName(Uri uri) {
+
+    private String getUniqName(Bitmap bitmap) {
         String fileName = UUID.randomUUID().toString();
-        pictureUploader.uploadPhoto(uri, TAG, "post", fileName);
+        pictureUploader.uploadPhotoFromDataInMemory(bitmap, "post", fileName);
 
         return fileName;
     }
