@@ -21,12 +21,13 @@ public class PostEntity{
     private int pickPic2;
     private List<String> votedUserIds;
     private Map<String, String> comments;
+    private Map<String, Boolean> likes;
 
     public PostEntity(){
 
     }
 
-    public PostEntity(String description, String photo1, String photo2, String docId, int pickPic1, int pickPic2, List<String> votedUserIds, Map<String, String> comments){
+    public PostEntity(String description, String photo1, String photo2, String docId, int pickPic1, int pickPic2, List<String> votedUserIds, Map<String, String> comments, Map<String, Boolean> likes){
         this.description = description;
         this.photo1 = photo1;
         this.photo2 = photo2;
@@ -35,6 +36,7 @@ public class PostEntity{
         this.pickPic2 = pickPic2;
         this.votedUserIds = votedUserIds;
         this.comments = comments;
+        this.likes = likes;
     }
 
     public String getDescription() {
@@ -117,6 +119,14 @@ public class PostEntity{
         this.comments = comments;
     }
 
+    public Map<String, Boolean> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Map<String, Boolean> likes) {
+        this.likes = likes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -131,12 +141,13 @@ public class PostEntity{
                 Objects.equals(userId, that.userId) &&
                 Objects.equals(docId, that.docId) &&
                 Objects.equals(votedUserIds, that.votedUserIds) &&
-                Objects.equals(comments, that.comments);
+                Objects.equals(comments, that.comments) &&
+                Objects.equals(likes, that.likes);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(description, createdDate, photo1, photo2, userId, docId, pickPic1, pickPic2, votedUserIds, comments);
+        return Objects.hash(description, createdDate, photo1, photo2, userId, docId, pickPic1, pickPic2, votedUserIds, comments, likes);
     }
 }

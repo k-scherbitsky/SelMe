@@ -101,9 +101,19 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
                 dto.setAmountPickPic(amountPickPic);
 
                 dto.setVotedUserIds(postEntityList.get(i).getVotedUserIds());
+
                 dto.setComments(postEntityList.get(i).getComments());
                 dto.setCommentsQuantity(postEntityList.get(i).getComments().size());
-//                dto.setLikesQuantity();
+
+                Map<String, Boolean> likesMap = postEntityList.get(i).getLikes();
+                int countLikes = 0;
+                for (Map.Entry entry : likesMap.entrySet()) {
+                    if(entry.getValue().equals(true)){
+                        countLikes++;
+                    }
+                }
+                dto.setLikes(postEntityList.get(i).getLikes());
+                dto.setLikesQuantity(countLikes);
 
                 postDTOList.add(dto);
             }

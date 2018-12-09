@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,6 +51,37 @@ public class PostDAO {
         this.callback = callback;
     }
 
+    public void updateLikes(String docId, Map<String, Boolean> likesMap){
+        Log.d(TAG, "updateLikesQuantity: Update likes map in database");
+        DocumentReference ref = db.collection(COLLECTION_PATH_POST).document(docId);
+
+        ref.update("likes", likesMap);
+    }
+
+    public void updateLikesQuantity(String docId, TextView qntyView){
+        final DocumentReference docRef = db.collection(COLLECTION_PATH_POST).document(docId);
+
+        docRef.addSnapshotListener((documentSnapshot, e) -> {
+           if (e != null){
+               Log.w(TAG, "updateLikesQuantity: ", e);
+           }
+
+           if (documentSnapshot != null && documentSnapshot.exists()){
+               PostEntity entity = documentSnapshot.toObject(PostEntity.class);
+               Map<String, Boolean> likesMap = entity.getLikes();
+
+               int countLikes = 0;
+               for (Map.Entry entry : likesMap.entrySet()) {
+                   if(entry.getValue().equals(true)){
+                       countLikes++;
+                   }
+               }
+               String qnty = countLikes != 0 ? String.valueOf(countLikes) : "";
+               qntyView.setText(qnty);
+           }
+        });
+    }
+
     public void updateQntyPick(String docId, int numButton, List<String> votesUserIds) {
         Log.d(TAG, "updateQntyPick: Update values in database");
         DocumentReference ref = db.collection(COLLECTION_PATH_POST).document(docId);
@@ -84,11 +117,11 @@ public class PostDAO {
             }
 
             if (documentSnapshot != null && documentSnapshot.exists()){
-                PostService postService = new PostService();
                 PostEntity postEntity = documentSnapshot.toObject(PostEntity.class);
                 int pickPic1 = postEntity != null ? postEntity.getPickPic1() : 0;
                 int pickPic2 = postEntity != null ? postEntity.getPickPic2() : 0;
 
+                PostService postService = new PostService();
                 int amount = pickPic1 + pickPic2;
                 int valueProgressBar1 = postService.calcValue(pickPic1, amount);
                 int valueProgressBar2 = postService.calcValue(pickPic2, amount);
@@ -124,6 +157,7 @@ public class PostDAO {
         postEntity.setPickPic2(0);
         postEntity.setComments(new HashMap<>());
         postEntity.setVotedUserIds(new ArrayList<>());
+        postEntity.setLikes(new HashMap<>());
 
         docRef.set(postEntity).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

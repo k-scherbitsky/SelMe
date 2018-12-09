@@ -32,6 +32,7 @@ import com.selme.service.PostService;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.DashboardViewHolder> {
 
@@ -79,14 +80,34 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             dashboardViewHolder.itemView.getContext().startActivity(intent);
         });
 
-//        dashboardViewHolder.itemView.setOnClickListener(view -> {
-//            int adapterPosition = dashboardViewHolder.getAdapterPosition();
-//            Intent intent = new Intent(dashboardViewHolder.itemView.getContext(), CommentsActivity.class);
-//            intent.putExtra("PostCard", postDtoList.get(adapterPosition));
-//            dashboardViewHolder.itemView.getContext().startActivity(intent);
-//        });
+        dashboardViewHolder.likeView.setOnClickListener(view -> likeHandler(dashboardViewHolder, postDtoList.get(i)));
 
         dashboardViewHolder.bind(postDtoList.get(i));
+    }
+
+    private void likeHandler(DashboardViewHolder dashboardViewHolder, PostDTO dto) {
+        ImageView like = dashboardViewHolder.likeView;
+        TextView qntyView = dashboardViewHolder.likesQuantity;
+        Map<String, Boolean> likesMap = dto.getLikes();
+        PostDAO postDAO = new PostDAO(dashboardViewHolder.itemView.getContext());
+
+        Boolean isLike;
+        if(likesMap.containsKey(currentUserId)){
+            if (!likesMap.get(currentUserId)){
+                like.setImageResource(R.drawable.heart);
+                isLike = true;
+            } else {
+                like.setImageResource(R.drawable.heart_outline);
+                isLike = false;
+            }
+        } else {
+            like.setImageResource(R.drawable.heart);
+            isLike = true;
+        }
+
+        likesMap.put(currentUserId, isLike);
+        postDAO.updateLikes(dto.getDocId(), likesMap);
+        postDAO.updateLikesQuantity(dto.getDocId(), qntyView);
     }
 
     private void addProgressBarValue(DashboardViewHolder dashboardViewHolder, int button) {
@@ -138,8 +159,9 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
         private ProgressBar progressBarPic1;
         private ProgressBar progressBarPic2;
         private ImageView commentView;
-        private ImageView likeView;
         private TextView commentsQuantityView;
+        private ImageView likeView;
+        private TextView likesQuantity;
 
         DashboardViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -157,8 +179,9 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             progressBarPic1 = itemView.findViewById(R.id.progressBar_pic1);
             progressBarPic2 = itemView.findViewById(R.id.progressBar_pic2);
             commentView = itemView.findViewById(R.id.comment_view);
-            likeView = itemView.findViewById(R.id.like_view);
             commentsQuantityView = itemView.findViewById(R.id.comments_quantity_view);
+            likeView = itemView.findViewById(R.id.like_view);
+            likesQuantity = itemView.findViewById(R.id.likes_quantity_view);
 
         }
 
@@ -221,17 +244,34 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             int pickPic1 = postDTO.getPickPic1();
             int pickPic2 = postDTO.getPickPic2();
             int amountPick = pickPic1 + pickPic2;
-            if(votedUserIds.contains(currentUserId)){
+            if (votedUserIds.contains(currentUserId)) {
                 progressBar1.setProgress(service.calcValue(pickPic1, amountPick));
                 progressBar2.setProgress(service.calcValue(pickPic2, amountPick));
             }
 
-            if(postDTO.getCommentsQuantity() != 0) {
+            if (postDTO.getCommentsQuantity() != 0) {
                 int qnty = postDTO.getCommentsQuantity();
                 commentsQuantityView.setText(String.valueOf(qnty));
             } else {
                 commentsQuantityView.setText("");
             }
+
+            Map<String, Boolean> likesMap = postDTO.getLikes();
+            if (likesMap.containsKey(currentUserId)) {
+                if (likesMap.get(currentUserId)) {
+                    likeView.setImageResource(R.drawable.heart);
+                }
+            } else {
+                likeView.setImageResource(R.drawable.heart_outline);
+            }
+
+            if (postDTO.getLikesQuantity() != 0) {
+                int qnty = postDTO.getLikesQuantity();
+                likesQuantity.setText(String.valueOf(qnty));
+            } else {
+                likesQuantity.setText("");
+            }
+
         }
     }
 }

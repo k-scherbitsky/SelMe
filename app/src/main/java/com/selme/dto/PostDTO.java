@@ -24,6 +24,7 @@ public class PostDTO implements Parcelable {
     private int amountPickPic;
     private List<String> votedUserIds;
     private Map<String, String> comments;
+    private Map<String, Boolean> likes;
     private int likesQuantity;
     private int commentsQuantity;
 
@@ -31,7 +32,7 @@ public class PostDTO implements Parcelable {
 
     }
 
-    public PostDTO(String userName, String docId, Uri avatar, String title, String description, Uri picture1, Uri picture2, int pickPic1, int pickPic2, int amountPickPic, List<String> votedUserIds, Map<String, String> comments, int likesQuantity, int commentsQuantity) {
+    public PostDTO(String userName, String docId, Uri avatar, String title, String description, Uri picture1, Uri picture2, int pickPic1, int pickPic2, int amountPickPic, List<String> votedUserIds, Map<String, String> comments, Map<String, Boolean> likes, int likesQuantity, int commentsQuantity) {
         this.userName = userName;
         this.docId = docId;
         this.avatar = avatar;
@@ -44,6 +45,7 @@ public class PostDTO implements Parcelable {
         this.amountPickPic = amountPickPic;
         this.votedUserIds = votedUserIds;
         this.comments = comments;
+        this.likes = likes;
         this.likesQuantity = likesQuantity;
         this.commentsQuantity = commentsQuantity;
         this.createdDate = createdDate;
@@ -169,6 +171,14 @@ public class PostDTO implements Parcelable {
         this.commentsQuantity = commentsQuantity;
     }
 
+    public Map<String, Boolean> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Map<String, Boolean> likes) {
+        this.likes = likes;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -192,6 +202,11 @@ public class PostDTO implements Parcelable {
         for (Map.Entry<String, String> entry : this.comments.entrySet()) {
             dest.writeString(entry.getKey());
             dest.writeString(entry.getValue());
+        }
+        dest.writeInt(this.likes.size());
+        for (Map.Entry<String, Boolean> entry : this.likes.entrySet()) {
+            dest.writeString(entry.getKey());
+            dest.writeValue(entry.getValue());
         }
         dest.writeInt(this.likesQuantity);
         dest.writeInt(this.commentsQuantity);
@@ -217,6 +232,13 @@ public class PostDTO implements Parcelable {
             String key = in.readString();
             String value = in.readString();
             this.comments.put(key, value);
+        }
+        int likesSize = in.readInt();
+        this.likes = new HashMap<String, Boolean>(likesSize);
+        for (int i = 0; i < likesSize; i++) {
+            String key = in.readString();
+            Boolean value = (Boolean) in.readValue(Boolean.class.getClassLoader());
+            this.likes.put(key, value);
         }
         this.likesQuantity = in.readInt();
         this.commentsQuantity = in.readInt();
