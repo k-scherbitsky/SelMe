@@ -112,11 +112,18 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if(data == null){
+            Snackbar.make(getCurrentFocus(), "You didn't choose a picture!", Snackbar.LENGTH_SHORT).show();
+            Log.wtf(TAG, "onActivityResult: Picture is not chosen");
+            return;
+        }
+
         if (resultCode == RESULT_OK) {
             photoUri = data.getData();
             if (photoUri != null) {
                 currentPhoto = pictureUploader.getBitmapImage(currentPhoto, resultCode, data);
                 profileImage.setImageBitmap(currentPhoto);
+                Log.d(TAG, "onActivityResult: user select picture from gallery");
             }
         }
     }

@@ -52,12 +52,18 @@ class DashboardFragment : Fragment(), PostDTOCallback {
 
 
     override fun toDto(dto: List<PostDTO>) {
+        if(dto.isEmpty()){
+            progressBar!!.visibility = View.GONE
+            swipeRefreshLayout!!.isRefreshing = false
+            return
+        }
+
         dashboardAdapter!!.clearItems()
 
         val sortedList = dto.sortedByDescending { it.createdDate }
         dashboardAdapter!!.setItems(sortedList)
 
-        progressBar!!.visibility = View.INVISIBLE
+        progressBar!!.visibility = View.GONE
         swipeRefreshLayout!!.isRefreshing = false
     }
 }

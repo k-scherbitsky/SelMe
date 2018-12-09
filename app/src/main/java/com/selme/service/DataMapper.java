@@ -76,7 +76,7 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
     public void onPostLoaded(List<PostEntity> postEntityList) {
         postDTOList = new ArrayList<>();
 
-        if (postEntityList != null) {
+        if (postEntityList != null && !postEntityList.isEmpty()) {
 
             postListSize = postEntityList.size();
 
@@ -117,6 +117,8 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
 
                 postDTOList.add(dto);
             }
+        } else {
+            postDTOCallback.toDto(null);
         }
     }
 

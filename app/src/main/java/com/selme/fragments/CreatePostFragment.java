@@ -59,16 +59,34 @@ public class CreatePostFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if(data == null){
+            Snackbar.make(getView(), "You didn't choose a picture!", Snackbar.LENGTH_SHORT).show();
+            Log.wtf(TAG, "onActivityResult: Picture is not chosen");
+            return;
+        }
+
         switch (requestCode){
             case REQUSET_CODE_PICTURE_1:
                 uriPicture1 = data.getData();
-                bitmapPicture1 = pictureUploader.getBitmapImage(bitmapPicture1, resultCode, data);
-                picture1.setImageBitmap(bitmapPicture1);
+                try {
+                    bitmapPicture1 = pictureUploader.getBitmapImage(bitmapPicture1, resultCode, data);
+                    picture1.setImageBitmap(bitmapPicture1);
+                } catch (Exception ex) {
+                    Log.e(TAG, "onActivityResult: bitmap is empty for picture 1!", ex);
+                }
+                Log.d(TAG, "onActivityResult: user select picture 1 from gallery");
                 break;
             case REQUSET_CODE_PICTURE_2:
                 uriPicture2 = data.getData();
-                bitmapPicture2 = pictureUploader.getBitmapImage(bitmapPicture2, resultCode, data);
-                picture2.setImageBitmap(bitmapPicture2);
+                try {
+                    bitmapPicture2 = pictureUploader.getBitmapImage(bitmapPicture2, resultCode, data);
+                    picture2.setImageBitmap(bitmapPicture2);
+                } catch (Exception ex){
+                    Log.e(TAG, "onActivityResult: bitmap is empty for picture 2!", ex);
+                }
+                Log.d(TAG, "onActivityResult: user select picture 2 from gallery");
+                break;
+            default:
                 break;
         }
     }

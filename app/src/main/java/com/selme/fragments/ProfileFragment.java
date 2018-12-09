@@ -42,6 +42,7 @@ public class ProfileFragment extends Fragment implements UserDAOCallback, Pictur
     private ProgressBar progressBar;
     private TextView userName;
     private TextView description;
+    private TextView nothingToShowView;
     private ImageView profileImage;
     private RecyclerView recyclerView;
     private DashboardAdapter dashboardAdapter;
@@ -61,6 +62,7 @@ public class ProfileFragment extends Fragment implements UserDAOCallback, Pictur
 
         progressBar = view.findViewById(R.id.progressBarProfile);
         profileImage = view.findViewById(R.id.profileImageView);
+        nothingToShowView = view.findViewById(R.id.nothing_to_show_view);
 
         UserDAO userDAO = new UserDAO(this);
         userDAO.getUser(userId, 0, 0);
@@ -116,8 +118,14 @@ public class ProfileFragment extends Fragment implements UserDAOCallback, Pictur
 
     @Override
     public void toDto(List<PostDTO> dto) {
+        if(dto == null){
+            progressBar.setVisibility(View.GONE);
+            nothingToShowView.setVisibility(View.VISIBLE);
+            return;
+        }
+
         dashboardAdapter.clearItems();
         dashboardAdapter.setItems(Lists.reverse(dto));
-        progressBar.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 }
