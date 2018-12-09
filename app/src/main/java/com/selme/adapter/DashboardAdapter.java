@@ -128,7 +128,6 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
 
         private ImageView avatarImageView;
         private TextView userName;
-        private TextView title;
         private TextView description;
         private ImageView picture1;
         private ImageView picture2;
@@ -140,6 +139,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
         private ProgressBar progressBarPic2;
         private ImageView commentView;
         private ImageView likeView;
+        private TextView commentsQuantityView;
 
         DashboardViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -147,7 +147,6 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             avatarImageView = itemView.findViewById(R.id.post_avatar);
             userName = itemView.findViewById(R.id.post_username);
 
-//            title = itemView.findViewById(R.id.titlePostTextView);
             description = itemView.findViewById(R.id.descriptionPostTextView);
             picture1 = itemView.findViewById(R.id.postImage1);
             picture2 = itemView.findViewById(R.id.postImage2);
@@ -159,6 +158,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             progressBarPic2 = itemView.findViewById(R.id.progressBar_pic2);
             commentView = itemView.findViewById(R.id.comment_view);
             likeView = itemView.findViewById(R.id.like_view);
+            commentsQuantityView = itemView.findViewById(R.id.comments_quantity_view);
 
         }
 
@@ -166,9 +166,6 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             if (postDTO.getUserName() != null) {
                 userName.setText(postDTO.getUserName());
             }
-//            if (postDTO.getTitle() != null) {
-//                title.setText(postDTO.getTitle());
-//            }
             if (postDTO.getDescription() != null) {
                 description.setText(postDTO.getDescription());
             }
@@ -227,6 +224,13 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Dash
             if(votedUserIds.contains(currentUserId)){
                 progressBar1.setProgress(service.calcValue(pickPic1, amountPick));
                 progressBar2.setProgress(service.calcValue(pickPic2, amountPick));
+            }
+
+            if(postDTO.getCommentsQuantity() != 0) {
+                int qnty = postDTO.getCommentsQuantity();
+                commentsQuantityView.setText(String.valueOf(qnty));
+            } else {
+                commentsQuantityView.setText("");
             }
         }
     }

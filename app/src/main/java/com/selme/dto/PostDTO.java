@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,12 +24,14 @@ public class PostDTO implements Parcelable {
     private int amountPickPic;
     private List<String> votedUserIds;
     private Map<String, String> comments;
+    private int likesQuantity;
+    private int commentsQuantity;
 
     public PostDTO(){
 
     }
 
-    public PostDTO(String userName, String docId, Uri avatar, String title, String description, Uri picture1, Uri picture2, int pickPic1, int pickPic2, int amountPickPic, List<String> votedUserIds, Map<String, String> comments) {
+    public PostDTO(String userName, String docId, Uri avatar, String title, String description, Uri picture1, Uri picture2, int pickPic1, int pickPic2, int amountPickPic, List<String> votedUserIds, Map<String, String> comments, int likesQuantity, int commentsQuantity) {
         this.userName = userName;
         this.docId = docId;
         this.avatar = avatar;
@@ -43,6 +44,8 @@ public class PostDTO implements Parcelable {
         this.amountPickPic = amountPickPic;
         this.votedUserIds = votedUserIds;
         this.comments = comments;
+        this.likesQuantity = likesQuantity;
+        this.commentsQuantity = commentsQuantity;
         this.createdDate = createdDate;
     }
 
@@ -150,6 +153,22 @@ public class PostDTO implements Parcelable {
         this.comments = comments;
     }
 
+    public int getLikesQuantity() {
+        return likesQuantity;
+    }
+
+    public void setLikesQuantity(int likesQuantity) {
+        this.likesQuantity = likesQuantity;
+    }
+
+    public int getCommentsQuantity() {
+        return commentsQuantity;
+    }
+
+    public void setCommentsQuantity(int commentsQuantity) {
+        this.commentsQuantity = commentsQuantity;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -174,6 +193,8 @@ public class PostDTO implements Parcelable {
             dest.writeString(entry.getKey());
             dest.writeString(entry.getValue());
         }
+        dest.writeInt(this.likesQuantity);
+        dest.writeInt(this.commentsQuantity);
     }
 
     protected PostDTO(Parcel in) {
@@ -197,9 +218,11 @@ public class PostDTO implements Parcelable {
             String value = in.readString();
             this.comments.put(key, value);
         }
+        this.likesQuantity = in.readInt();
+        this.commentsQuantity = in.readInt();
     }
 
-    public static final Parcelable.Creator<PostDTO> CREATOR = new Parcelable.Creator<PostDTO>() {
+    public static final Creator<PostDTO> CREATOR = new Creator<PostDTO>() {
         @Override
         public PostDTO createFromParcel(Parcel source) {
             return new PostDTO(source);
