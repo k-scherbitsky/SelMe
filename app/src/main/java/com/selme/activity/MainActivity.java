@@ -11,12 +11,14 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.selme.R;
 import com.selme.activity.auth.LoginActivity;
+import com.selme.activity.auth.SignUpActivity;
 import com.selme.entity.UserEntity;
 import com.selme.fragments.CreatePostFragment;
 import com.selme.fragments.DashboardFragment;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private DashboardFragment dashboardFragment;
     private CreatePostFragment createPostFragment;
     private ProfileFragment profileFragment;
+    private FirebaseAuth mAuth;
 
     private BottomNavigationView
             .OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {
@@ -57,15 +60,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mAuth = FirebaseAuth.getInstance();
+
         mTextMessage = findViewById(R.id.message);
 
         profileFragment = new ProfileFragment();
         dashboardFragment = new DashboardFragment();
         createPostFragment = new CreatePostFragment();
 
-        loadFragment(dashboardFragment);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null){
+            loadFragment(dashboardFragment);
+        } else {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private boolean loadFragment(Fragment fragment) {
