@@ -1,4 +1,4 @@
-package com.selme.entity;
+package com.selme.model.entity;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
 

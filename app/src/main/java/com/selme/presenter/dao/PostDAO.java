@@ -1,11 +1,8 @@
-package com.selme.dao;
+package com.selme.presenter.dao;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,9 +14,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.selme.R;
-import com.selme.entity.PostEntity;
-import com.selme.interfaces.PostDAOCallback;
-import com.selme.service.PostService;
+import com.selme.model.entity.PostEntity;
+import com.selme.presenter.interfaces.PostDAOCallback;
+import com.selme.presenter.service.PostService;
 
 import java.util.ArrayList;
 import java.util.HashMap;

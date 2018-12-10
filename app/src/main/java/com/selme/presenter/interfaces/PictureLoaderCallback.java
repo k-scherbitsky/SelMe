@@ -1,4 +1,4 @@
-package com.selme.interfaces;
+package com.selme.presenter.interfaces;
 
 import android.net.Uri;
 

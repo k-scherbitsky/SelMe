@@ -25,9 +25,9 @@ import com.bumptech.glide.request.target.Target;
 import com.google.firebase.auth.FirebaseAuth;
 import com.selme.R;
 import com.selme.view.activity.CommentsActivity;
-import com.selme.dao.PostDAO;
-import com.selme.dto.PostDTO;
-import com.selme.service.PostService;
+import com.selme.presenter.dao.PostDAO;
+import com.selme.model.dto.PostDTO;
+import com.selme.presenter.service.PostService;
 
 import java.util.ArrayList;
 import java.util.Collection;

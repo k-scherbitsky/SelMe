@@ -1,4 +1,4 @@
-package com.selme.service;
+package com.selme.presenter.service;
 
 public class PostService {
 

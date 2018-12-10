@@ -1,6 +1,6 @@
-package com.selme.interfaces;
+package com.selme.presenter.interfaces;
 
-import com.selme.dto.CommentsDTO;
+import com.selme.model.dto.CommentsDTO;
 
 import java.util.List;
 

@@ -1,26 +1,20 @@
-package com.selme.service;
+package com.selme.presenter.service;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.storage.StorageReference;
-import com.selme.interfaces.PictureLoaderCallback;
+import com.selme.presenter.interfaces.PictureLoaderCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import id.zelory.compressor.Compressor;
 

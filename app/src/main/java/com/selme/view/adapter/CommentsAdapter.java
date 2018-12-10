@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.selme.R;
-import com.selme.dto.CommentsDTO;
+import com.selme.model.dto.CommentsDTO;
 
 import java.util.ArrayList;
 import java.util.Collection;

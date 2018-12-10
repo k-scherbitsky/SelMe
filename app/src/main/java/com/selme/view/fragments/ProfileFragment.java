@@ -22,14 +22,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.selme.R;
 import com.selme.view.adapter.DashboardAdapter;
-import com.selme.dao.UserDAO;
-import com.selme.dto.PostDTO;
-import com.selme.entity.UserEntity;
-import com.selme.interfaces.PictureLoaderCallback;
-import com.selme.interfaces.PostDTOCallback;
-import com.selme.interfaces.UserDAOCallback;
-import com.selme.service.DataMapper;
-import com.selme.service.PictureLoader;
+import com.selme.presenter.dao.UserDAO;
+import com.selme.model.dto.PostDTO;
+import com.selme.model.entity.UserEntity;
+import com.selme.presenter.interfaces.PictureLoaderCallback;
+import com.selme.presenter.interfaces.PostDTOCallback;
+import com.selme.presenter.interfaces.UserDAOCallback;
+import com.selme.presenter.service.DataMapper;
+import com.selme.presenter.service.PictureLoader;
 
 import java.util.List;
 

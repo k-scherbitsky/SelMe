@@ -20,8 +20,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.selme.R;
 import com.selme.view.activity.MainActivity;
-import com.selme.dao.UserDAO;
-import com.selme.service.PictureLoader;
+import com.selme.presenter.dao.UserDAO;
+import com.selme.presenter.service.PictureLoader;
 
 import java.util.UUID;
 

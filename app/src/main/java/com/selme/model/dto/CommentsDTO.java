@@ -1,4 +1,4 @@
-package com.selme.dto;
+package com.selme.model.dto;
 
 import android.net.Uri;
 

@@ -13,9 +13,9 @@ import android.widget.ProgressBar
 import com.google.firebase.storage.FirebaseStorage
 import com.selme.R
 import com.selme.view.adapter.DashboardAdapter
-import com.selme.service.DataMapper
-import com.selme.dto.PostDTO
-import com.selme.interfaces.PostDTOCallback
+import com.selme.presenter.service.DataMapper
+import com.selme.model.dto.PostDTO
+import com.selme.presenter.interfaces.PostDTOCallback
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 
 class DashboardFragment : Fragment(), PostDTOCallback {

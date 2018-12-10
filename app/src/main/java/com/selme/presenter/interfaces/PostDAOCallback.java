@@ -1,6 +1,6 @@
-package com.selme.interfaces;
+package com.selme.presenter.interfaces;
 
-import com.selme.entity.PostEntity;
+import com.selme.model.entity.PostEntity;
 
 import java.util.List;
 

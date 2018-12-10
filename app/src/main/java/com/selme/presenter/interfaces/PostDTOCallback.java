@@ -1,6 +1,6 @@
-package com.selme.interfaces;
+package com.selme.presenter.interfaces;
 
-import com.selme.dto.PostDTO;
+import com.selme.model.dto.PostDTO;
 
 import java.util.List;
 

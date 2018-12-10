@@ -1,4 +1,4 @@
-package com.selme.dao;
+package com.selme.presenter.dao;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,8 +10,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.selme.R;
-import com.selme.entity.UserEntity;
-import com.selme.interfaces.UserDAOCallback;
+import com.selme.model.entity.UserEntity;
+import com.selme.presenter.interfaces.UserDAOCallback;
 
 
 public class UserDAO {

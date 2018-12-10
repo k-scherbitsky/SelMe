@@ -18,11 +18,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.selme.R;
 import com.selme.view.adapter.CommentsAdapter;
-import com.selme.dao.PostDAO;
-import com.selme.dto.CommentsDTO;
-import com.selme.dto.PostDTO;
-import com.selme.interfaces.CommentsDTOCallback;
-import com.selme.service.DataMapper;
+import com.selme.presenter.dao.PostDAO;
+import com.selme.model.dto.CommentsDTO;
+import com.selme.model.dto.PostDTO;
+import com.selme.presenter.interfaces.CommentsDTOCallback;
+import com.selme.presenter.service.DataMapper;
 
 import java.util.List;
 import java.util.Map;

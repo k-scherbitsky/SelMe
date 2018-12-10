@@ -1,20 +1,20 @@
-package com.selme.service;
+package com.selme.presenter.service;
 
 import android.net.Uri;
 import android.util.Log;
 
 import com.google.firebase.storage.StorageReference;
-import com.selme.dao.PostDAO;
-import com.selme.dao.UserDAO;
-import com.selme.dto.CommentsDTO;
-import com.selme.dto.PostDTO;
-import com.selme.entity.PostEntity;
-import com.selme.entity.UserEntity;
-import com.selme.interfaces.CommentsDTOCallback;
-import com.selme.interfaces.PictureLoaderCallback;
-import com.selme.interfaces.PostDAOCallback;
-import com.selme.interfaces.PostDTOCallback;
-import com.selme.interfaces.UserDAOCallback;
+import com.selme.presenter.dao.PostDAO;
+import com.selme.presenter.dao.UserDAO;
+import com.selme.model.dto.CommentsDTO;
+import com.selme.model.dto.PostDTO;
+import com.selme.model.entity.PostEntity;
+import com.selme.model.entity.UserEntity;
+import com.selme.presenter.interfaces.CommentsDTOCallback;
+import com.selme.presenter.interfaces.PictureLoaderCallback;
+import com.selme.presenter.interfaces.PostDAOCallback;
+import com.selme.presenter.interfaces.PostDTOCallback;
+import com.selme.presenter.interfaces.UserDAOCallback;
 
 import java.util.ArrayList;
 import java.util.List;

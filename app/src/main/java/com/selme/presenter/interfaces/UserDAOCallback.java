@@ -1,6 +1,6 @@
-package com.selme.interfaces;
+package com.selme.presenter.interfaces;
 
-import com.selme.entity.UserEntity;
+import com.selme.model.entity.UserEntity;
 
 public interface UserDAOCallback {
 
