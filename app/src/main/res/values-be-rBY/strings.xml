@@ -14,7 +14,7 @@
     <string name="title_notifications">Павядамленне</string>
     <string name="action_sign_in">Уваход або рэгістрацыя</string>
     <string name="action_login">Логін</string>
-    <string name="action_create_account">У Вас наяма яшчыэ акаўнта? Cтварыць</string>
+    <string name="action_create_account">У Вас няма яшчэ акаўнта? Cтварыць</string>
     <string name="title_activity_signup">Зарэгістравацца</string>
     <string name="first_name_edit_text">Імя</string>
     <string name="action_button_create_account">Стварыць акаўнт</string>
@@ -33,7 +33,7 @@
     <string name="title_add_post">Дадаць запіс</string>
     <string name="title_profile">Профіль</string>
     <string name="sign_out">Выйсці</string>
-    <string name="edit_profile_btn_text">Рэдагаваць профіль</string>
+    <string name="edit_profile_btn_text">Рэдактгаваць профіль</string>
     <string name="profile_photo">Фота профілю</string>
     <string name="picture_1">фота 1</string>
     <string name="picture_2">фота 2</string>
@@ -49,4 +49,19 @@
     <string name="you_didn_t_choose_a_picture">Вы не абралі фатаграфію.</string>
     <string name="posting_progress_dialog">Загрузка</string>
     <string name="error_create_post">Памылка! Пост не створаны</string>
+    <string name="you_voted">Вы ўжо прагаласавалі</string>
+    <string name="repeat_your_password">Паўтарыце Ваш пароль</string>
+    <string name="password_not_equals">Паролі не саўпадаюць</string>
+    <string name="upload_your_avatar">Загрузіць аввтар</string>
+    <string name="i_remember_my_password_login">Я памятаю сво пароль. Увайсці</string>
+    <string name="reset_password">Скід пароля</string>
+    <string name="enter_your_email_which_you_entered_when_registering">Калі ласка, увядзіце адрас электроннай пошты, які вы ўказывал пры рэгістрацыі. Мы вышлем Вам ліст для аднаўлення пароля.</string>
+    <string name="forgot_my_password_reset">Забыpыў пароль. Скінуць</string>
+    <string name="sending_email">Адпраўка ліста</string>
+    <string name="comments">Каментарыі</string>
+    <string name="like">Спадабайка</string>
+    <string name="add_comment">Дадаць каментарый</string>
+    <string name="write_comment">Напісаць каментарый</string>
+    <string name="upload_picture_error">Загрузіце свой малюнак!</string>
+    <string name="nothing_to_show">Нічога нема. Стварыце пост.</string>
 </resources>
