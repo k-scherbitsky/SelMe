@@ -183,7 +183,7 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
 
     @Override
     public void onUserLoadFailed(Exception error) {
-        Log.w(TAG, "onUserLoadFailed: data about user didn't get. Check log", error);
+        Log.e(TAG, "onUserLoadFailed: data about user didn't get. Check log", error);
     }
 
     private void getProfilePhoto(String fileName, int requestCode, int pos) {

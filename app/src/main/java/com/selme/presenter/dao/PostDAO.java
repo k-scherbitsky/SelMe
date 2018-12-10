@@ -60,7 +60,7 @@ public class PostDAO {
 
         docRef.addSnapshotListener((documentSnapshot, e) -> {
            if (e != null){
-               Log.w(TAG, "updateLikesQuantity: ", e);
+               Log.e(TAG, "updateLikesQuantity: ", e);
            }
 
            if (documentSnapshot != null && documentSnapshot.exists()){
@@ -110,7 +110,7 @@ public class PostDAO {
 
         docRef.addSnapshotListener((documentSnapshot, e) -> {
             if (e != null){
-                Log.w(TAG, "addProgressBarValue: ", e);
+                Log.e(TAG, "addProgressBarValue: ", e);
             }
 
             if (documentSnapshot != null && documentSnapshot.exists()){
@@ -161,7 +161,7 @@ public class PostDAO {
                 Log.d(TAG, "addNewPost: new post is created");
                 progressDialog.dismiss();
             } else {
-                Log.w(TAG, "addNewPost: new post isn't created. Check log", task.getException());
+                Log.e(TAG, "addNewPost: new post isn't created. Check log", task.getException());
                 Toast.makeText(context, R.string.error_create_post, Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }

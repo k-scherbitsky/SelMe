@@ -108,7 +108,7 @@ public class ProfileFragment extends Fragment implements UserDAOCallback, Pictur
 
     @Override
     public void onUserLoadFailed(Exception error) {
-        Log.w(TAG, "onUserLoadFailed: Data from db wasn't upload. Check log", error);
+        Log.e(TAG, "onUserLoadFailed: Data from db wasn't upload. Check log", error);
     }
 
     @Override
