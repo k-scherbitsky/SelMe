@@ -2,6 +2,7 @@ package com.selme.view.fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -46,6 +48,7 @@ public class ProfileFragment extends Fragment implements UserDAOCallback, Pictur
     private ImageView profileImage;
     private RecyclerView recyclerView;
     private DashboardAdapter dashboardAdapter;
+    private Button editProfileButton;
 
 
     public ProfileFragment() {
@@ -56,6 +59,9 @@ public class ProfileFragment extends Fragment implements UserDAOCallback, Pictur
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        editProfileButton = view.findViewById(R.id.edit_profile_button);
+        editProfileButton.setOnClickListener(view1 -> Snackbar.make(view, "Coming soon...", Snackbar.LENGTH_SHORT));
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -81,6 +87,7 @@ public class ProfileFragment extends Fragment implements UserDAOCallback, Pictur
     }
 
     private void initRecyclerView() {
+        Log.d(TAG, "initRecyclerView() called");
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         dashboardAdapter = new DashboardAdapter();
         recyclerView.setAdapter(dashboardAdapter);
@@ -90,6 +97,7 @@ public class ProfileFragment extends Fragment implements UserDAOCallback, Pictur
 
     @Override
     public void onUserLoaded(UserEntity user, int requestCode, int pos) {
+        Log.d(TAG, "onUserLoaded() called with: user = [" + user + "], requestCode = [" + requestCode + "], pos = [" + pos + "]");
         userName.setText(getUserName(user.getFirstName(), user.getLastName()));
         description.setText(user.getDescription());
         String avatarName = user.getProfilePhoto();
@@ -105,6 +113,7 @@ public class ProfileFragment extends Fragment implements UserDAOCallback, Pictur
 
     @Override
     public void onPictureDownloaded(Uri uri, int requestCode, int pos) {
+        Log.d(TAG, "onPictureDownloaded() called with: uri = [" + uri + "], requestCode = [" + requestCode + "], pos = [" + pos + "]");
         Glide.with(this)
                 .load(uri)
                 .apply(RequestOptions.circleCropTransform())
@@ -118,6 +127,7 @@ public class ProfileFragment extends Fragment implements UserDAOCallback, Pictur
 
     @Override
     public void toDto(List<PostDTO> dto) {
+        Log.d(TAG, "toDto() called with: dto = [" + dto + "]");
         if(dto == null){
             progressBar.setVisibility(View.GONE);
             nothingToShowView.setVisibility(View.VISIBLE);

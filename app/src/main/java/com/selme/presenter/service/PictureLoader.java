@@ -39,6 +39,7 @@ public class PictureLoader {
     }
 
     public void uploadPhotoFromDataInMemory(Bitmap bitmap, String folderName, String fileName){
+        Log.d(TAG, "uploadPhotoFromDataInMemory() called with: bitmap = [" + bitmap + "], folderName = [" + folderName + "], fileName = [" + fileName + "]");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -49,15 +50,17 @@ public class PictureLoader {
         riversRef.putBytes(data).addOnSuccessListener(taskSnapshot -> {
             Log.d(TAG, "uploadPhotoFromDataInMemory: photo is uploaded");
         }).addOnFailureListener(exception -> {
-            Log.w(TAG, "uploadPhotoFromDataInMemory: photo isn't uploaded. Check log", exception );
+            Log.e(TAG, "uploadPhotoFromDataInMemory: photo isn't uploaded. Check log", exception );
         });
     }
 
     public void getPhotoUri(StorageReference riversRef, int requestCode, int pos) {
+        Log.d(TAG, "getPhotoUri() called with: riversRef = [" + riversRef + "], requestCode = [" + requestCode + "], pos = [" + pos + "]");
         riversRef.getDownloadUrl().addOnSuccessListener(uri -> callback.onPictureDownloaded(uri, requestCode, pos));
     }
 
     public Bitmap getBitmapImage(Bitmap bitmap, int resultCode, Intent data) {
+        Log.d(TAG, "getBitmapImage() called with: bitmap = [" + bitmap + "], resultCode = [" + resultCode + "], data = [" + data + "]");
         if (resultCode == RESULT_OK) {
             Uri uri = data.getData();
             if (uri != null) {
@@ -79,6 +82,7 @@ public class PictureLoader {
     }
 
     private static String getRealPathFromUri(Context context, Uri contentUri) {
+        Log.d(TAG, "getRealPathFromUri() called with: context = [" + context + "], contentUri = [" + contentUri + "]");
         String[] proj = { MediaStore.Images.Media.DATA };
         try (Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null)) {
             int column_index = 0;

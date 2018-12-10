@@ -1,12 +1,17 @@
 package com.selme.view.fragments;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,15 +27,17 @@ import com.google.firebase.storage.StorageReference;
 import com.selme.R;
 import com.selme.presenter.dao.PostDAO;
 import com.selme.presenter.service.PictureLoader;
+import com.selme.view.activity.auth.SignUpActivity;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 public class CreatePostFragment extends Fragment {
 
     private static final String TAG = "CreatePostFragment";
-    private static final int REQUSET_CODE_PICTURE_1 = 100;
-    private static final int REQUSET_CODE_PICTURE_2 = 200;
-    private static final int PERMISSION_WRITE_STORAGE = 21;
+    private static final int REQUEST_CODE_PICTURE_1 = 100;
+    private static final int REQUEST_CODE_PICTURE_2 = 200;
+    private static final int REQUEST_PERMISSIONS = 20;
 
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
@@ -58,7 +65,7 @@ public class CreatePostFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = [" + resultCode + "], data = [" + data + "]");
         if(data == null){
             Snackbar.make(getView(), "You didn't choose a picture!", Snackbar.LENGTH_SHORT).show();
             Log.wtf(TAG, "onActivityResult: Picture is not chosen");
@@ -66,25 +73,25 @@ public class CreatePostFragment extends Fragment {
         }
 
         switch (requestCode){
-            case REQUSET_CODE_PICTURE_1:
+            case REQUEST_CODE_PICTURE_1:
                 uriPicture1 = data.getData();
                 try {
                     bitmapPicture1 = pictureUploader.getBitmapImage(bitmapPicture1, resultCode, data);
                     picture1.setImageBitmap(bitmapPicture1);
+                    Log.d(TAG, "onActivityResult: user select picture 1 from gallery");
                 } catch (Exception ex) {
                     Log.e(TAG, "onActivityResult: bitmap is empty for picture 1!", ex);
                 }
-                Log.d(TAG, "onActivityResult: user select picture 1 from gallery");
                 break;
-            case REQUSET_CODE_PICTURE_2:
+            case REQUEST_CODE_PICTURE_2:
                 uriPicture2 = data.getData();
                 try {
                     bitmapPicture2 = pictureUploader.getBitmapImage(bitmapPicture2, resultCode, data);
                     picture2.setImageBitmap(bitmapPicture2);
+                    Log.d(TAG, "onActivityResult: user select picture 2 from gallery");
                 } catch (Exception ex){
                     Log.e(TAG, "onActivityResult: bitmap is empty for picture 2!", ex);
                 }
-                Log.d(TAG, "onActivityResult: user select picture 2 from gallery");
                 break;
             default:
                 break;
@@ -115,27 +122,55 @@ public class CreatePostFragment extends Fragment {
         uploadPicture2 = view.findViewById(R.id.upload_photo_2);
         share = view.findViewById(R.id.share_new_post);
 
-        uploadPicture1.setOnClickListener(view1 -> {
-            Intent photoIntent = new Intent(Intent.ACTION_PICK);
-            photoIntent.setType("image/*");
-            startActivityForResult(photoIntent, REQUSET_CODE_PICTURE_1);
-        });
-
-        uploadPicture2.setOnClickListener(view1 -> {
-            Intent photoIntent = new Intent(Intent.ACTION_PICK);
-            photoIntent.setType("image/*");
-            startActivityForResult(photoIntent, REQUSET_CODE_PICTURE_2);
-        });
-
-        share.setOnClickListener(view1 -> {
-            createNewPost();
-        });
+        uploadPicture1.setOnClickListener(view1 -> verifyPermissions(REQUEST_CODE_PICTURE_1));
+        uploadPicture2.setOnClickListener(view1 -> verifyPermissions(REQUEST_CODE_PICTURE_2));
+        share.setOnClickListener(view1 -> createNewPost());
 
         return view;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d(TAG, "onRequestPermissionsResult() called with: " +
+                "requestCode = [" + requestCode + "], " +
+                "permissions = [" + Arrays.toString(permissions) + "], " +
+                "grantResults = [" + Arrays.toString(grantResults) + "]");
+
+        verifyPermissions(requestCode);
+    }
+
+    private void verifyPermissions(int requestCode){
+        Log.d(TAG, "verifyPermissions: asking user for permissions");
+
+        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA,
+                Manifest.permission.INTERNET};
+
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                permissions[0]) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                        permissions[1]) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                        permissions[2]) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                        permissions[3]) == PackageManager.PERMISSION_GRANTED) {
+            openGallery(requestCode);
+        } else {
+            Log.wtf(TAG, "verifyPermissions: permissions was reject");
+            ActivityCompat.requestPermissions(getActivity(), permissions, requestCode);
+        }
+    }
+
+    private void openGallery(int requestCode) {
+        Log.d(TAG, "openGallery() called with: requestCode = [" + requestCode + "]");
+        Intent photoIntent = new Intent(Intent.ACTION_PICK);
+        photoIntent.setType("image/*");
+        startActivityForResult(photoIntent, requestCode);
+    }
+
     private void createNewPost() {
-        Log.d(TAG, "addNewPost");
+        Log.d(TAG, "createNewPost() called");
 
         if(!validate()){
             share.setEnabled(true);

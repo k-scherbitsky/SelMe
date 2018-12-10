@@ -55,8 +55,8 @@
     <string name="upload_your_avatar">Загрузіць аввтар</string>
     <string name="i_remember_my_password_login">Я памятаю сво пароль. Увайсці</string>
     <string name="reset_password">Скід пароля</string>
-    <string name="enter_your_email_which_you_entered_when_registering">Калі ласка, увядзіце адрас электроннай пошты, які вы ўказывал пры рэгістрацыі. Мы вышлем Вам ліст для аднаўлення пароля.</string>
-    <string name="forgot_my_password_reset">Забыpыў пароль. Скінуць</string>
+    <string name="enter_your_email_which_you_entered_when_registering">Калі ласка, увядзіце адрас электроннай пошты, які вы пазначылi пры рэгістрацыі. Мы вышлем Вам ліст для аднаўлення пароля.</string>
+    <string name="forgot_my_password_reset">Забыў пароль. Скінуць</string>
     <string name="sending_email">Адпраўка ліста</string>
     <string name="comments">Каментарыі</string>
     <string name="like">Спадабайка</string>
