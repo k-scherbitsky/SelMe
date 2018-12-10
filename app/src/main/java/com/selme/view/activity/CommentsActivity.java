@@ -1,4 +1,4 @@
-package com.selme.activity;
+package com.selme.view.activity;
 
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.selme.R;
-import com.selme.adapter.CommentsAdapter;
+import com.selme.view.adapter.CommentsAdapter;
 import com.selme.dao.PostDAO;
 import com.selme.dto.CommentsDTO;
 import com.selme.dto.PostDTO;

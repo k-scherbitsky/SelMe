@@ -1,4 +1,4 @@
-package com.selme.fragments
+package com.selme.view.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -12,7 +12,7 @@ import android.widget.ProgressBar
 
 import com.google.firebase.storage.FirebaseStorage
 import com.selme.R
-import com.selme.adapter.DashboardAdapter
+import com.selme.view.adapter.DashboardAdapter
 import com.selme.service.DataMapper
 import com.selme.dto.PostDTO
 import com.selme.interfaces.PostDTOCallback

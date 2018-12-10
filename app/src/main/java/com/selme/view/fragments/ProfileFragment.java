@@ -1,4 +1,4 @@
-package com.selme.fragments;
+package com.selme.view.fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.selme.R;
-import com.selme.adapter.DashboardAdapter;
+import com.selme.view.adapter.DashboardAdapter;
 import com.selme.dao.UserDAO;
 import com.selme.dto.PostDTO;
 import com.selme.entity.UserEntity;

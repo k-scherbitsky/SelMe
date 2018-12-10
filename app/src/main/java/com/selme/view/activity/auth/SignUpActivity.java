@@ -1,10 +1,9 @@
-package com.selme.activity.auth;
+package com.selme.view.activity.auth;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,11 +19,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.selme.R;
-import com.selme.activity.MainActivity;
+import com.selme.view.activity.MainActivity;
 import com.selme.dao.UserDAO;
 import com.selme.service.PictureLoader;
 
-import java.io.IOException;
 import java.util.UUID;
 
 public class SignUpActivity extends AppCompatActivity {

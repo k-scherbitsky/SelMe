@@ -1,4 +1,4 @@
-package com.selme.fragments;
+package com.selme.view.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

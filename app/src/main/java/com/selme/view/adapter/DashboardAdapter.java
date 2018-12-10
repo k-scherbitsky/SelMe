@@ -1,4 +1,4 @@
-package com.selme.adapter;
+package com.selme.view.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -24,7 +24,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.google.firebase.auth.FirebaseAuth;
 import com.selme.R;
-import com.selme.activity.CommentsActivity;
+import com.selme.view.activity.CommentsActivity;
 import com.selme.dao.PostDAO;
 import com.selme.dto.PostDTO;
 import com.selme.service.PostService;

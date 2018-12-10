@@ -1,4 +1,4 @@
-package com.selme.adapter;
+package com.selme.view.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
