@@ -46,6 +46,8 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
     }
 
     public void toPostDto(PostDTOCallback callback, boolean isProfile) {
+        Log.d(TAG, "toPostDto() called with: callback = [" + callback + "], " +
+                "isProfile = [" + isProfile + "]");
         this.postDTOCallback = callback;
 
         userDAO = new UserDAO(this);
@@ -55,6 +57,8 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
     }
 
     public void toCommentsDto(Map<String, String> commentsMap, CommentsDTOCallback callback) {
+        Log.d(TAG, "toCommentsDto() called with: commentsMap = [" + commentsMap + "], " +
+                "callback = [" + callback + "]");
         this.commentsDTOCallback = callback;
         userDAO = new UserDAO(this);
         commentsDTOList = new ArrayList<>();
@@ -74,6 +78,7 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
 
     @Override
     public void onPostLoaded(List<PostEntity> postEntityList) {
+        Log.d(TAG, "onPostLoaded() called with: postEntityList = [" + postEntityList + "]");
         postDTOList = new ArrayList<>();
 
         if (postEntityList != null && !postEntityList.isEmpty()) {
@@ -124,6 +129,8 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
 
     @Override
     public void onUserLoaded(UserEntity user, int requestCode, int pos) {
+        Log.d(TAG, "onUserLoaded() called with: user = [" + user + "], " +
+                "requestCode = [" + requestCode + "], pos = [" + pos + "]");
         String userNameText = user.getFirstName() + " " +user.getLastName();
         String fileName = user.getProfilePhoto();
 
@@ -170,7 +177,7 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
 
     @Override
     public void onPostFailed(Exception error) {
-        Log.w(TAG, "onPostFailed: post didn't get. Check log", error);
+        Log.e(TAG, "onPostFailed: post didn't get. Check log", error);
 
     }
 
@@ -180,6 +187,8 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
     }
 
     private void getProfilePhoto(String fileName, int requestCode, int pos) {
+        Log.d(TAG, "getProfilePhoto() called with: fileName = [" + fileName + "], " +
+                "requestCode = [" + requestCode + "], pos = [" + pos + "]");
         Log.d(TAG, "getProfilePhoto: get photo from profile photo");
         String filePath = "profileImage/" + fileName;
         StorageReference riversRef = storageRef.child(filePath);
@@ -189,7 +198,8 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
     }
 
     private void getPicture(String fileName, int requestCode, int pos) {
-        Log.d(TAG, "getPicture: get picture from post folder");
+        Log.d(TAG, "getPicture() called with: fileName = [" + fileName + "], " +
+                "requestCode = [" + requestCode + "], pos = [" + pos + "]");
         String filePath = "post/" + fileName;
         StorageReference riversRef = storageRef.child(filePath);
 
@@ -202,6 +212,8 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
     }
 
     private void doPostCallback(int listSize, List<PostDTO> dtoList, PostDTOCallback callback) {
+        Log.d(TAG, "doPostCallback() called with: listSize = [" + listSize + "], " +
+                "dtoList = [" + dtoList + "], callback = [" + callback + "]");
         int checkPos = listSize - 1;
         if(dtoList.get(checkPos).getAvatar() != null
                 && dtoList.get(checkPos).getPicture1() != null
@@ -212,6 +224,8 @@ public class DataMapper implements UserDAOCallback, PostDAOCallback, PictureLoad
     }
 
     private void doCommentCallback(int listSize, List<CommentsDTO> dtoList, CommentsDTOCallback callback) {
+        Log.d(TAG, "doCommentCallback() called with: listSize = [" + listSize + "], " +
+                "dtoList = [" + dtoList + "], callback = [" + callback + "]");
         int checkPos = listSize - 1;
         if(dtoList.get(checkPos).getAvatar() != null
                 && dtoList.get(checkPos).getUserName() != null) {

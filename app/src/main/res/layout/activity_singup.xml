@@ -23,6 +23,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
             android:src="@drawable/avatar"
+            android:foreground="?android:attr/selectableItemBackground"
             android:contentDescription="@string/profile_image" />
 
         <!--  Name Label -->
@@ -126,6 +127,7 @@
             android:background="@color/colorPrimaryDark"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
+            android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/action_button_create_account" />
 
         <TextView
@@ -135,6 +137,7 @@
             android:layout_marginBottom="24dp"
             android:gravity="center"
             android:text="@string/already_a_member_login"
+            android:foreground="?android:attr/selectableItemBackground"
             android:textSize="16sp" />
 
     </LinearLayout>

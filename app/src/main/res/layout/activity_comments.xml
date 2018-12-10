@@ -53,6 +53,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             app:srcCompat="@drawable/send"
+            android:foreground="?android:attr/selectableItemBackground"
             android:contentDescription="@string/add_comment" />
     </LinearLayout>
 

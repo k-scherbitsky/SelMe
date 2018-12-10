@@ -70,6 +70,7 @@
             android:layout_marginBottom="24dp"
             android:gravity="center"
             android:text="@string/action_create_account"
+            android:foreground="?android:attr/selectableItemBackground"
             android:textSize="16sp" />
 
         <TextView
@@ -79,6 +80,7 @@
             android:layout_marginBottom="24dp"
             android:gravity="center"
             android:text="@string/forgot_my_password_reset"
+            android:foreground="?android:attr/selectableItemBackground"
             android:textSize="16sp" />
 
     </LinearLayout>

@@ -87,6 +87,7 @@
                     android:backgroundTintMode="src_in"
                     android:elevation="0dp"
                     android:textAllCaps="false"
+                    android:foreground="?android:attr/selectableItemBackground"
                     tools:ignore="ButtonStyle" />
 
             </LinearLayout>
@@ -128,6 +129,7 @@
                     android:backgroundTintMode="src_in"
                     android:elevation="0dp"
                     android:textAllCaps="false"
+                    android:foreground="?android:attr/selectableItemBackground"
                     tools:ignore="ButtonStyle" />
             </LinearLayout>
 
@@ -146,6 +148,7 @@
                 android:backgroundTintMode="src_in"
                 android:elevation="0dp"
                 android:textAllCaps="false"
+                android:foreground="?android:attr/selectableItemBackground"
                 tools:ignore="ButtonStyle" />
         </LinearLayout>
     </ScrollView>

@@ -142,6 +142,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14sp"
+                    android:foreground="?android:attr/selectableItemBackground"
                     tools:ignore="ButtonStyle" />
 
                 <Button
@@ -158,6 +159,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="14sp"
+                    android:foreground="?android:attr/selectableItemBackground"
                     tools:ignore="ButtonStyle" />
             </LinearLayout>
 
@@ -201,6 +203,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
                             android:contentDescription="@string/comments"
+                            android:foreground="?android:attr/selectableItemBackground"
                             app:srcCompat="@drawable/message_reply_text" />
 
                         <TextView
