@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1079799985541",
+    "firebase_url": "https://selme-be0da.firebaseio.com",
+    "project_id": "selme-be0da",
+    "storage_bucket": "selme-be0da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079799985541:android:4fb10e66debf0672",
+        "android_client_info": {
+          "package_name": "com.selme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1079799985541-ktenl3slu6klj4p5uv4lkv6qnbmmq0sr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.selme",
+            "certificate_hash": "81a8bef5e6f0001368cd0baa8de256ccc9b2313d"
+          }
+        },
+        {
+          "client_id": "1079799985541-2850i3sik0levol934ejs31pho4d9rt5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE4jRyh-aEPMG-GMZlZ00t97dNwccG_CE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1079799985541-2850i3sik0levol934ejs31pho4d9rt5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
